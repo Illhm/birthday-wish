@@ -58,7 +58,11 @@ export default function Home({ forceUnlock = false }) {
     const confettiSettings = {
       target: "canvas",
       start_from_edge: true,
-      colors: [[255, 105, 180], [255, 192, 203], [255, 20, 147], [255, 0, 0]], // Romantic colors (Pinks and Reds)
+      colors: [[183, 110, 121], [253, 232, 232], [255, 245, 245]], // Rosegold, light blush, cream
+      clock: 15,
+      max: 150,
+      size: 1.2,
+      props: ["circle", "square"]
     };
     const confetti = new ConfettiGenerator(confettiSettings);
     confetti.render();
@@ -86,7 +90,7 @@ export default function Home({ forceUnlock = false }) {
     return (
       <div className={styles.container}>
         <Head>
-          <title>Happy Birthday, My Love!</title>
+          <title>Selamat Ulang Tahun, Kasihku!</title>
           <meta name="description" content="A special birthday wish for you" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -96,9 +100,9 @@ export default function Home({ forceUnlock = false }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fdfbfb] to-[#f4dada] flex flex-col items-center justify-center font-serif text-pink-800 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-cream-light to-rosegold-light flex flex-col items-center justify-center font-sans text-rosegold-dark relative overflow-hidden">
       <Head>
-        <title>Happy Birthday, My Love!</title>
+        <title>Selamat Ulang Tahun, Kasihku!</title>
         <meta name="description" content="A special birthday wish for you" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -107,34 +111,59 @@ export default function Home({ forceUnlock = false }) {
 
       <main className="z-10 w-full max-w-4xl px-4 py-12 flex flex-col items-center">
         {/* Simple & Elegant Greeting Section */}
-        <div className="relative overflow-hidden bg-white/40 backdrop-blur-md border border-white/50 shadow-[0_8px_32px_0_rgba(227,168,177,0.37)] rounded-3xl p-8 md:p-16 text-center mb-16 max-w-2xl w-full">
+        <div className="relative overflow-hidden bg-white/30 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(227,168,177,0.4)] rounded-3xl p-8 md:p-16 text-center mb-16 max-w-2xl w-full animate-fadeUp">
           {/* Subtle Background Texture */}
           <div className="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b76e79' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}></div>
 
-          <h1 className="relative z-10 text-4xl md:text-6xl font-bold mb-6 text-[#b76e79] drop-shadow-sm">
-            Happy Birthday, My Love
+          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-serif font-semibold mb-6 text-rosegold tracking-wide drop-shadow-sm leading-tight">
+            Selamat Ulang Tahun, <br className="md:hidden" /> Kasihku
           </h1>
 
-          <div className="relative z-10 w-24 h-1 bg-pink-300 mx-auto mb-8 rounded-full"></div>
+          <div className="relative z-10 w-24 h-px bg-rosegold/50 mx-auto mb-8"></div>
 
-          <div className="relative z-10 space-y-6 text-lg md:text-xl font-sans text-gray-800 leading-relaxed font-light italic">
-            <p>
-              [ Your personal message goes here. Pour your heart out! ]
+          <div className="relative z-10 flex flex-col items-center space-y-8 text-lg md:text-xl font-sans text-gray-700 leading-relaxed font-light">
+            <p className="font-serif italic text-2xl text-rosegold-dark opacity-90">
+              &quot;Di setiap detik yang berlalu, ada cinta yang terus tumbuh untukmu.&quot;
             </p>
-            <p>
-              [ Write about how much they mean to you, your favorite memories, and your hopes for their special day. ]
+
+            <div className="flex items-center space-x-2 text-rosegold/60 text-sm">
+              <span>•</span>
+              <span className="text-lg">✨</span>
+              <span>•</span>
+            </div>
+
+            <p className="max-w-xl text-center">
+              Mengingat kembali hari pertama kita bertemu, rasanya waktu berjalan begitu cepat. Setiap memori yang kita buat bersama menjadi harta paling berharga dalam hidupku.
             </p>
-            <p className="font-medium text-[#b76e79] mt-8">
-              Forever Yours, <br/>
-              [ Your Name ]
+
+            <p className="max-w-xl text-center">
+              Di hari istimewamu ini, aku berharap kamu selalu dilimpahi kebahagiaan, kesehatan, dan senyuman yang tak pernah pudar. Semoga semua impianmu menjadi kenyataan, dan aku bisa selalu ada di sisimu.
             </p>
+
+            <div className="mt-8">
+              <p className="font-serif text-2xl font-medium text-rosegold-dark">
+                Selamanya milikmu,
+              </p>
+              <p className="font-serif text-2xl text-rosegold mt-2">
+                [ Namamu ]
+              </p>
+            </div>
           </div>
 
           <button
-            className="relative z-10 mt-12 text-[#b76e79] hover:text-[#a05a66] hover:drop-shadow-[0_0_8px_rgba(183,110,121,0.5)] transition-all duration-300 tracking-wider uppercase text-sm font-medium"
+            className="relative z-10 mt-14 flex items-center justify-center space-x-3 mx-auto px-6 py-3 rounded-full border border-rosegold/30 bg-white/50 text-rosegold-dark hover:bg-rosegold-light/50 hover:border-rosegold/50 hover:animate-pulseGlow transition-all duration-500 tracking-wide uppercase text-sm font-medium shadow-sm hover:shadow-md"
             onClick={toggleAudio}
           >
-            {isPlaying ? "Pause Music ⏸️" : "Celebrate with Nadin Amizah 🎵"}
+            {isPlaying ? (
+              <>
+                <span className="animate-pulse">Pause Music ⏸️</span>
+              </>
+            ) : (
+              <>
+                <span>Celebrate with Nadin&apos;s Voice</span>
+                <span className="text-lg">🎵</span>
+              </>
+            )}
           </button>
         </div>
 
