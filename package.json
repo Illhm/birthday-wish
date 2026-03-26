@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "export NODE_OPTIONS=--openssl-legacy-provider; next dev",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider; next build",
-    "export": "export NODE_OPTIONS=--openssl-legacy-provider; next build && next export",
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider; next start",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider next dev",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider next build",
+    "export": "cross-env NODE_OPTIONS=--openssl-legacy-provider next build && cross-env NODE_OPTIONS=--openssl-legacy-provider next export",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider next start",
     "lint": "next lint"
   },
   "dependencies": {
     "confetti-js": "^0.0.18",
+    "cross-env": "^10.1.0",
     "file-saver": "^2.0.5",
     "html-to-image": "^1.8.5",
     "next": "11.1.2",
