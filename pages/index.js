@@ -3,16 +3,9 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import ConfettiGenerator from "confetti-js";
 import Carousel from "../components/Carousel";
-import Timeline from "../components/Timeline";
 import LockScreen from "../components/LockScreen";
-import { Heart, Star, Sparkles, Gift } from "lucide-react";
-import { addDays, subDays } from "date-fns";
-
-// Import raw JSON data
-import messagesData from "../data/messages.json";
 
 export default function Home({ forceUnlock = false }) {
-  const [timelineEvents, setTimelineEvents] = useState([]);
   const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
@@ -25,38 +18,34 @@ export default function Home({ forceUnlock = false }) {
         setIsLocked(false);
       }
     }
-
-    // Map JSON string dates to Date objects and string icons to components
-    const iconMap = {
-      Heart: Heart,
-      Star: Star,
-      Sparkles: Sparkles,
-      Gift: Gift,
-    };
-
-    const parsedEvents = messagesData.map((msg) => ({
-      ...msg,
-      date: new Date(msg.date),
-      icon: iconMap[msg.icon] || Heart,
-    }));
-
-    setTimelineEvents(parsedEvents);
   }, [forceUnlock]);
 
-  const carouselImages = [
-    {
-      src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop",
-      caption: "Our first date, the beginning of everything ❤️"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800&auto=format&fit=crop",
-      caption: "That amazing trip we took together ✈️"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1516589178581-6cd785311b52?q=80&w=800&auto=format&fit=crop",
-      caption: "Just being silly and happy 🥰"
-    }
+  const imageFilenames = [
+    "IMG-20260305-WA0024.jpg",
+    "IMG-20260306-WA0008.jpg",
+    "IMG-20260310-WA0034.jpg",
+    "IMG-20260310-WA0036.jpg",
+    "IMG-20260311-WA0004.jpg",
+    "IMG-20260313-WA0007.jpg",
+    "IMG-20260316-WA0008.jpg",
+    "IMG-20260318-WA0008.jpg",
+    "IMG-20260320-WA0010.jpg",
+    "IMG-20260320-WA0030.jpg",
+    "IMG-20260320-WA0032.jpg",
+    "IMG-20260321-WA0034.jpg",
+    "IMG-20260321-WA0036.jpg",
+    "IMG-20260322-WA0002.jpg",
+    "IMG-20260326-WA0001.jpg",
+    "IMG-20260326-WA0002.jpg",
+    "IMG-20260326-WA0003.jpg",
+    "IMG-20260326-WA0004.jpg",
+    "IMG-20260326-WA0005.jpg",
   ];
+
+  const carouselImages = imageFilenames.map((filename) => ({
+    src: `/image/${filename}`,
+    caption: "A beautiful memory ❤️",
+  }));
 
   const audioRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -99,56 +88,49 @@ export default function Home({ forceUnlock = false }) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen bg-rose-50 flex flex-col items-center justify-center font-serif text-pink-800 relative overflow-hidden">
       <Head>
         <title>Happy Birthday, My Love!</title>
         <meta name="description" content="A special birthday wish for you" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <canvas className={styles.canvas} id="canvas"></canvas>
+      <canvas className="fixed inset-0 pointer-events-none z-0" id="canvas"></canvas>
 
-      <main className={styles.main}>
-        <div className={styles.card}>
-          <h1 className={styles.title}>
-            Happy Birthday, <span className={styles.highlight}>Sayang! ❤️</span>
+      <main className="z-10 w-full max-w-4xl px-4 py-12 flex flex-col items-center">
+        {/* Simple & Elegant Greeting Section */}
+        <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl p-8 md:p-16 text-center mb-16 border border-pink-100 max-w-2xl w-full">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-pink-600 drop-shadow-sm">
+            Happy Birthday, My Love
           </h1>
 
-          <div className={styles.photoContainer}>
-            {/* Replace the src below with your own photo */}
-            <img
-              src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20300%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18e%20text%20%7B%20fill%3A%23ffffff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A15pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18e%22%3E%3Crect%20width%3D%22300%22%20height%3D%22300%22%20fill%3D%22%23ffb6c1%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2285%22%20y%3D%22155%22%3EYour%20Photo%20Here%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-              alt="Our lovely memory"
-              className={styles.photo}
-            />
-          </div>
+          <div className="w-24 h-1 bg-pink-300 mx-auto mb-8 rounded-full"></div>
 
-          <div className={styles.messageContainer}>
-            <p className={styles.message}>
-              Selamat ulang tahun untuk orang yang paling spesial di hidupku! 🎉
+          <div className="space-y-6 text-lg md:text-xl text-gray-700 leading-relaxed font-light italic">
+            <p>
+              [ Your personal message goes here. Pour your heart out! ]
             </p>
-            <p className={styles.message}>
-              Terima kasih sudah menjadi alasan di balik senyumku setiap hari.
-              Semoga di hari ulang tahunmu ini, semua harapan dan mimpimu bisa terwujud.
-              Aku bersyukur banget bisa merayakan hari bahagiamu bersamamu.
+            <p>
+              [ Write about how much they mean to you, your favorite memories, and your hopes for their special day. ]
             </p>
-            <p className={styles.message}>
-              I love you more than words can say. Have the most wonderful birthday! 🥰
+            <p className="font-medium text-pink-500 mt-8">
+              Forever Yours, <br/>
+              [ Your Name ]
             </p>
           </div>
 
-          <button className={styles.playButton} onClick={toggleAudio}>
+          <button
+            className="mt-12 px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-sans font-medium transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            onClick={toggleAudio}
+          >
             {isPlaying ? "Pause Music ⏸️" : "Play Our Song 🎵"}
           </button>
         </div>
 
-        {/* New Interactive Sections */}
-        <div className="w-full mt-16 z-10 relative">
+        {/* Dynamic Photo Gallery */}
+        <div className="w-full relative">
+          <h2 className="text-3xl font-serif text-center text-pink-600 mb-8 drop-shadow-sm">Our Beautiful Memories</h2>
           <Carousel images={carouselImages} />
-        </div>
-
-        <div className="w-full mt-16 z-10 relative">
-          <Timeline events={timelineEvents} />
         </div>
       </main>
 
