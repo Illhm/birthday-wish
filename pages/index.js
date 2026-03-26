@@ -5,6 +5,33 @@ import ConfettiGenerator from "confetti-js";
 import Carousel from "../components/Carousel";
 import LockScreen from "../components/LockScreen";
 
+const imageFilenames = [
+  "IMG-20260305-WA0024.jpg",
+  "IMG-20260306-WA0008.jpg",
+  "IMG-20260310-WA0034.jpg",
+  "IMG-20260310-WA0036.jpg",
+  "IMG-20260311-WA0004.jpg",
+  "IMG-20260313-WA0007.jpg",
+  "IMG-20260316-WA0008.jpg",
+  "IMG-20260318-WA0008.jpg",
+  "IMG-20260320-WA0010.jpg",
+  "IMG-20260320-WA0030.jpg",
+  "IMG-20260320-WA0032.jpg",
+  "IMG-20260321-WA0034.jpg",
+  "IMG-20260321-WA0036.jpg",
+  "IMG-20260322-WA0002.jpg",
+  "IMG-20260326-WA0001.jpg",
+  "IMG-20260326-WA0002.jpg",
+  "IMG-20260326-WA0003.jpg",
+  "IMG-20260326-WA0004.jpg",
+  "IMG-20260326-WA0005.jpg",
+];
+
+const carouselImages = imageFilenames.map((filename) => ({
+  src: `/image/${filename}`,
+  caption: "A beautiful memory ❤️",
+}));
+
 export default function Home({ forceUnlock = false }) {
   const [isLocked, setIsLocked] = useState(true);
 
@@ -19,33 +46,6 @@ export default function Home({ forceUnlock = false }) {
       }
     }
   }, [forceUnlock]);
-
-  const imageFilenames = [
-    "IMG-20260305-WA0024.jpg",
-    "IMG-20260306-WA0008.jpg",
-    "IMG-20260310-WA0034.jpg",
-    "IMG-20260310-WA0036.jpg",
-    "IMG-20260311-WA0004.jpg",
-    "IMG-20260313-WA0007.jpg",
-    "IMG-20260316-WA0008.jpg",
-    "IMG-20260318-WA0008.jpg",
-    "IMG-20260320-WA0010.jpg",
-    "IMG-20260320-WA0030.jpg",
-    "IMG-20260320-WA0032.jpg",
-    "IMG-20260321-WA0034.jpg",
-    "IMG-20260321-WA0036.jpg",
-    "IMG-20260322-WA0002.jpg",
-    "IMG-20260326-WA0001.jpg",
-    "IMG-20260326-WA0002.jpg",
-    "IMG-20260326-WA0003.jpg",
-    "IMG-20260326-WA0004.jpg",
-    "IMG-20260326-WA0005.jpg",
-  ];
-
-  const carouselImages = imageFilenames.map((filename) => ({
-    src: `/image/${filename}`,
-    caption: "A beautiful memory ❤️",
-  }));
 
   const audioRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);

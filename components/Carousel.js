@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 const Carousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +40,7 @@ const Carousel = ({ images }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden rounded-2xl shadow-xl shadow-pink-200/50">
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl shadow-pink-200/50">
         {images.map((image, index) => (
           <div
             key={index}
@@ -47,10 +48,12 @@ const Carousel = ({ images }) => {
               index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
           >
-            <img
+            <Image
               src={image.src}
               alt={image.caption}
-              className="w-full h-full object-cover"
+              layout="fill"
+              objectFit="cover"
+              priority={index === 0}
             />
           </div>
         ))}
@@ -58,25 +61,25 @@ const Carousel = ({ images }) => {
         {/* Navigation Arrows */}
         <button
           onClick={goToPrevious}
-          className="absolute top-1/2 left-4 -translate-y-1/2 z-20 p-2 bg-white/50 hover:bg-white/80 rounded-full shadow-md transition-colors text-pink-500"
+          className="absolute top-1/2 left-4 -translate-y-1/2 z-20 p-2 bg-white/80 hover:bg-white rounded-full shadow-lg backdrop-blur-sm transition-colors text-pink-500"
           aria-label="Previous image"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={32} />
         </button>
         <button
           onClick={goToNext}
-          className="absolute top-1/2 right-4 -translate-y-1/2 z-20 p-2 bg-white/50 hover:bg-white/80 rounded-full shadow-md transition-colors text-pink-500"
+          className="absolute top-1/2 right-4 -translate-y-1/2 z-20 p-2 bg-white/80 hover:bg-white rounded-full shadow-lg backdrop-blur-sm transition-colors text-pink-500"
           aria-label="Next image"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={32} />
         </button>
-      </div>
 
-      {/* Caption */}
-      <div className="mt-4 text-center">
-        <p className="text-gray-700 font-medium italic text-lg sm:text-xl transition-all duration-300">
-          {images[currentIndex].caption}
-        </p>
+        {/* Caption */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 bg-white/70 backdrop-blur-md px-6 py-2 rounded-full shadow-lg text-center transition-all duration-300">
+          <p className="text-gray-800 font-medium italic text-lg sm:text-xl">
+            {images[currentIndex].caption}
+          </p>
+        </div>
       </div>
 
       {/* Dot Indicators */}
@@ -85,9 +88,9 @@ const Carousel = ({ images }) => {
           <button
             key={index}
             onClick={() => goToIndex(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-4 h-4 rounded-full transition-all duration-300 ${
               index === currentIndex
-                ? 'bg-pink-500 w-6'
+                ? 'bg-pink-500 w-8'
                 : 'bg-pink-300 hover:bg-pink-400'
             }`}
             aria-label={`Go to slide ${index + 1}`}
