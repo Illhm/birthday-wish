@@ -4,47 +4,39 @@ import styles from "../styles/Home.module.css";
 import ConfettiGenerator from "confetti-js";
 import Carousel from "../components/Carousel";
 import Timeline from "../components/Timeline";
+import LockScreen from "../components/LockScreen";
 import { Heart, Star, Sparkles, Gift } from "lucide-react";
 import { addDays, subDays } from "date-fns";
 
+// Import raw JSON data
+import messagesData from "../data/messages.json";
+
 export default function Home() {
   const [timelineEvents, setTimelineEvents] = useState([]);
+  const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
-    // Generate dates on the client side to avoid SSR mismatches.
     const today = new Date();
-    setTimelineEvents([
-      {
-        day: 1,
-        date: subDays(today, 2),
-        message: "Do you remember when we first met? Time flies when I'm with you.",
-        icon: Heart
-      },
-      {
-        day: 2,
-        date: subDays(today, 1),
-        message: "You make every ordinary day feel like a magical adventure.",
-        icon: Sparkles
-      },
-      {
-        day: 3,
-        date: today,
-        message: "Today is a beautiful day, just like you. I'm so lucky to have you.",
-        icon: Star
-      },
-      {
-        day: 4,
-        date: addDays(today, 1),
-        message: "This message will unlock tomorrow! Something special is coming.",
-        icon: Gift
-      },
-      {
-        day: 5,
-        date: addDays(today, 2),
-        message: "Almost there... getting ready for the big day!",
-        icon: Heart
-      }
-    ]);
+    const unlockDate = new Date("2026-03-27T00:00:00");
+    if (today >= unlockDate) {
+      setIsLocked(false);
+    }
+
+    // Map JSON string dates to Date objects and string icons to components
+    const iconMap = {
+      Heart: Heart,
+      Star: Star,
+      Sparkles: Sparkles,
+      Gift: Gift,
+    };
+
+    const parsedEvents = messagesData.map((msg) => ({
+      ...msg,
+      date: new Date(msg.date),
+      icon: iconMap[msg.icon] || Heart,
+    }));
+
+    setTimelineEvents(parsedEvents);
   }, []);
 
   const carouselImages = [
@@ -66,6 +58,9 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+    // Only run confetti when not locked
+    if (isLocked) return;
+
     const confettiSettings = {
       target: "canvas",
       start_from_edge: true,
@@ -75,7 +70,7 @@ export default function Home() {
     confetti.render();
 
     return () => confetti.clear();
-  }, []);
+  }, [isLocked]);
 
   const toggleAudio = () => {
     if (isPlaying) {
@@ -85,6 +80,19 @@ export default function Home() {
     }
     setIsPlaying(!isPlaying);
   };
+
+  if (isLocked) {
+    return (
+      <div className={styles.container}>
+        <Head>
+          <title>Happy Birthday, My Love!</title>
+          <meta name="description" content="A special birthday wish for you" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <LockScreen />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
