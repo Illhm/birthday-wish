@@ -2,8 +2,66 @@ import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import ConfettiGenerator from "confetti-js";
+import Carousel from "../components/Carousel";
+import Timeline from "../components/Timeline";
+import { Heart, Star, Sparkles, Gift } from "lucide-react";
+import { addDays, subDays } from "date-fns";
 
 export default function Home() {
+  const [timelineEvents, setTimelineEvents] = useState([]);
+
+  useEffect(() => {
+    // Generate dates on the client side to avoid SSR mismatches.
+    const today = new Date();
+    setTimelineEvents([
+      {
+        day: 1,
+        date: subDays(today, 2),
+        message: "Do you remember when we first met? Time flies when I'm with you.",
+        icon: Heart
+      },
+      {
+        day: 2,
+        date: subDays(today, 1),
+        message: "You make every ordinary day feel like a magical adventure.",
+        icon: Sparkles
+      },
+      {
+        day: 3,
+        date: today,
+        message: "Today is a beautiful day, just like you. I'm so lucky to have you.",
+        icon: Star
+      },
+      {
+        day: 4,
+        date: addDays(today, 1),
+        message: "This message will unlock tomorrow! Something special is coming.",
+        icon: Gift
+      },
+      {
+        day: 5,
+        date: addDays(today, 2),
+        message: "Almost there... getting ready for the big day!",
+        icon: Heart
+      }
+    ]);
+  }, []);
+
+  const carouselImages = [
+    {
+      src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop",
+      caption: "Our first date, the beginning of everything ❤️"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800&auto=format&fit=crop",
+      caption: "That amazing trip we took together ✈️"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1516589178581-6cd785311b52?q=80&w=800&auto=format&fit=crop",
+      caption: "Just being silly and happy 🥰"
+    }
+  ];
+
   const audioRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -70,6 +128,15 @@ export default function Home() {
           <button className={styles.playButton} onClick={toggleAudio}>
             {isPlaying ? "Pause Music ⏸️" : "Play Our Song 🎵"}
           </button>
+        </div>
+
+        {/* New Interactive Sections */}
+        <div className="w-full mt-16 z-10 relative">
+          <Carousel images={carouselImages} />
+        </div>
+
+        <div className="w-full mt-16 z-10 relative">
+          <Timeline events={timelineEvents} />
         </div>
       </main>
 
