@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, startOfDay, addDays } from 'date-fns';
 import { Lock, Heart, Star, Sparkles, Gift } from 'lucide-react';
 
-// Using a date slightly in the future relative to "now" for demonstration
-// Feel free to replace this with the actual target date!
-// Provide a default static target date so it doesn't change on every render during SSR
-const STATIC_TARGET_DATE = startOfDay(addDays(new Date('2026-03-29'), 0));
-
 const TimelineNode = ({ day, isLocked, message, icon: Icon, date }) => {
   const [isVisible, setIsVisible] = useState(false);
   const nodeRef = React.useRef(null);
@@ -101,10 +96,8 @@ const Timeline = ({ events }) => {
     const initialNow = new Date();
     setNow(initialNow);
 
-    // Using an actual fixed target date instead of evaluating relative to the server start time
-    // Here we make a dummy target date strictly 3 days from the current client time for demo purposes.
-    // In a real scenario, this would be a fixed date like new Date('2026-05-15')
-    const targetDate = startOfDay(addDays(initialNow, 3));
+    // Set target date to March 27, 2026
+    const targetDate = startOfDay(new Date('2026-03-27'));
 
     const calculateTimeLeft = (currentDate) => {
       const days = Math.max(0, differenceInDays(targetDate, currentDate));
