@@ -3,6 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import ConfettiGenerator from "confetti-js";
 import LockScreen from "../components/LockScreen";
+import { toPng } from 'html-to-image';
+import { saveAs } from 'file-saver';
 
 const imageFilenames = [
   "IMG-20260305-WA0024.jpg",
@@ -75,6 +77,12 @@ export default function Home({ forceUnlock = false }) {
     };
     const confetti = new ConfettiGenerator(confettiSettings);
     confetti.render();
+
+    // Attempt autoplay when unlocked
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log("Auto-play failed (requires interaction):", e));
+    }
+
     return () => confetti.clear();
   }, [isLocked]);
 
@@ -97,11 +105,24 @@ export default function Home({ forceUnlock = false }) {
   };
 
   const nextCard = () => {
-    if (currentCard < 4) setCurrentCard(prev => prev + 1);
+    if (currentCard < 5) setCurrentCard(prev => prev + 1);
   };
 
   const prevCard = () => {
     if (currentCard > 1) setCurrentCard(prev => prev - 1);
+  };
+
+  const handleShareStory = () => {
+    const node = document.getElementById('story-summary');
+    if (node) {
+      toPng(node, { quality: 0.95 })
+        .then(function (dataUrl) {
+          saveAs(dataUrl, 'happy-birthday-story.png');
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+    }
   };
 
   return (
@@ -127,7 +148,7 @@ export default function Home({ forceUnlock = false }) {
       </Head>
       <canvas className="fixed inset-0 pointer-events-none z-0 opacity-50" id="canvas"></canvas>
 
-      <audio ref={audioRef} loop>
+      <audio ref={audioRef} loop autoPlay>
         <source src="media/hbd.mp3" type="audio/mpeg" />
       </audio>
 
@@ -217,19 +238,19 @@ export default function Home({ forceUnlock = false }) {
               <ul className="space-y-8 max-w-lg mx-auto w-full text-gray-700 text-xl font-sans">
                 <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '300ms' }}>
                   <span className="text-rosegold-dark text-2xl mt-1 drop-shadow-[0_0_4px_rgba(183,110,121,0.5)] blur-[0.5px]">🌟</span>
-                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 1: misalnya, caramu menatapku saat sedang bercerita ]</span>
+                  <span className="font-light leading-relaxed">caramu menemaniku ngobrol setiap hari, sampai rela ninggalin game cuma buat balas pesanku</span>
                 </li>
                 <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '500ms' }}>
                   <span className="text-rosegold-light text-2xl mt-1 drop-shadow-[0_0_4px_rgba(253,232,232,0.8)] blur-[0.5px]">❤️</span>
-                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 2: kebaikan hatimu yang tak pernah habis untuk orang sekitar ]</span>
+                  <span className="font-light leading-relaxed">keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku</span>
                 </li>
                 <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '700ms' }}>
                   <span className="text-rosegold-dark text-2xl mt-1 drop-shadow-[0_0_4px_rgba(183,110,121,0.5)] blur-[0.5px]">🌟</span>
-                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 3: tawamu yang menular dan mencerahkan suasana ]</span>
+                  <span className="font-light leading-relaxed">sifat cemburuan dan gengsimu yang diam-diam selalu berhasil bikin aku makin sayang</span>
                 </li>
                 <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '900ms' }}>
                   <span className="text-rosegold-light text-2xl mt-1 drop-shadow-[0_0_4px_rgba(253,232,232,0.8)] blur-[0.5px]">❤️</span>
-                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 4: caramu membuat segalanya terasa lebih mudah saat kita bersama ]</span>
+                  <span className="font-light leading-relaxed">caramu menjaga perasaanku, yang bikin aku selalu yakin dan rela menunggu sampai kita bisa bertemu nanti</span>
                 </li>
               </ul>
             </div>
@@ -242,10 +263,10 @@ export default function Home({ forceUnlock = false }) {
 
               <div className="opacity-0 animate-fadeUp text-xl md:text-2xl font-sans text-gray-700 leading-[2] font-light space-y-10" style={{ animationDelay: '300ms' }}>
                 <p className="ml-8 md:ml-12 mr-4">
-                  Semoga tahun ini membawa lebih banyak kedamaian, kebahagiaan, dan langkah-langkah baru yang membawamu semakin dekat dengan mimpimu.
+                  Semoga tahun ini membawa lebih banyak kebahagiaan dan ketenangan buat hati kamu. Makasih ya sudah sekuat ini dan pelan-pelan mau membuka hati lagi buat aku.
                 </p>
                 <p className="mr-8 md:mr-12 ml-4 text-right">
-                  Apapun yang terjadi ke depannya, aku berharap kita bisa selalu berpegangan tangan. <br/> <span className="italic text-rosegold-dark">Menghadapi sedih bersama, merayakan bahagia berdua.</span>
+                  Walaupun raga kita belum bisa saling bertatap secara langsung, aku harap doa dan afeksiku selalu sampai ke kamu. Jangan pernah merasa sendirian lagi ya, ada aku di sini yang siap mendengarkan semua ceritamu.
                 </p>
                 <p className="font-serif text-3xl text-rosegold-dark mt-16 text-center italic opacity-90">
                   Selamat bertambah usia, sayang.
@@ -253,8 +274,36 @@ export default function Home({ forceUnlock = false }) {
               </div>
 
               <div className="opacity-0 animate-fadeUp mt-20 text-right mr-8" style={{ animationDelay: '600ms' }}>
-                <p className="font-sans text-lg font-light text-gray-500 mb-2">Selamanya milikmu,</p>
-                <p className="font-serif text-4xl text-rosegold-dark drop-shadow-sm">[ Namamu ]</p>
+                <p className="font-sans text-lg font-light text-gray-500 mb-2">Selamanya sedia buat kamu,</p>
+                <p className="font-serif text-4xl text-rosegold-dark drop-shadow-sm">Ilham</p>
+              </div>
+            </div>
+          )}
+
+          {/* Card 5: Story Summary */}
+          {currentCard === 5 && (
+            <div id="story-summary" className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-8 min-h-[550px] flex flex-col justify-center items-center aspect-[9/16] max-h-[80vh] mx-auto overflow-hidden relative">
+              <div className="absolute inset-0 z-0 opacity-20 bg-[url('/image/IMG-20260326-WA0005.jpg')] bg-cover bg-center mix-blend-overlay"></div>
+
+              <div className="z-10 w-full flex flex-col items-center text-center space-y-6">
+                <h1 className="text-4xl font-serif text-rosegold-dark italic tracking-wide">Happy Birthday</h1>
+                <h2 className="text-3xl font-serif text-rosegold font-medium">Ansa</h2>
+
+                <div className="w-16 h-[1px] bg-rosegold-dark mx-auto my-4"></div>
+
+                <div className="text-sm font-sans text-gray-800 leading-relaxed px-4 space-y-4 font-light bg-white/40 p-4 rounded-xl backdrop-blur-md border border-white/50">
+                  <p className="italic">&quot;Keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku.&quot;</p>
+                  <p>Semoga tahun ini membawa lebih banyak kebahagiaan dan ketenangan buat hati kamu.</p>
+                  <p className="font-medium text-rosegold-dark mt-2">- Ilham -</p>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 mt-6 w-full px-2">
+                  {[imageFilenames[0], imageFilenames[4], imageFilenames[8]].map((img, idx) => (
+                     <div key={idx} className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-sm border border-white/60">
+                       <Image src={`/image/${img}`} alt="memory" layout="fill" objectFit="cover" />
+                     </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -272,7 +321,7 @@ export default function Home({ forceUnlock = false }) {
               <span className="hidden sm:inline">Putar Kembali</span>
             </button>
 
-            {currentCard < 4 ? (
+            {currentCard < 5 ? (
               <button
                 onClick={nextCard}
                 className="flex items-center space-x-2 px-8 py-3 rounded-full bg-gradient-to-r from-rosegold to-rosegold-dark text-white font-medium shadow-[0_4px_15px_rgba(183,110,121,0.4)] hover:shadow-[0_0_20px_rgba(183,110,121,0.6)] hover:scale-105 transition-all duration-300"
@@ -282,9 +331,18 @@ export default function Home({ forceUnlock = false }) {
                 <span className="ml-2 pl-2 border-l border-white/30 text-sm font-light">Celebrate with Nadin&apos;s Voice 🎵</span>
               </button>
             ) : (
-              <div className="px-8 py-3 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 font-serif text-2xl text-rosegold-dark italic font-medium shadow-sm flex items-center space-x-3">
-                <span>I Love You</span>
-                <span className="animate-pulse">❤️</span>
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={handleShareStory}
+                  className="px-6 py-3 rounded-full bg-white/40 backdrop-blur-md border border-white/60 font-sans text-sm text-rosegold-dark font-medium shadow-sm hover:bg-white/60 hover:scale-105 transition-all duration-300 flex items-center space-x-2"
+                >
+                  <span>📷</span>
+                  <span>Simpan sbg Story</span>
+                </button>
+                <div className="px-8 py-3 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 font-serif text-xl text-rosegold-dark italic font-medium shadow-sm flex items-center space-x-3">
+                  <span>I Love You</span>
+                  <span className="animate-pulse">❤️</span>
+                </div>
               </div>
             )}
           </div>
