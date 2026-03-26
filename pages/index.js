@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import ConfettiGenerator from "confetti-js";
 import LockScreen from "../components/LockScreen";
+import { useRouter } from 'next/router';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 
@@ -46,13 +47,19 @@ const StaggeredText = ({ text, className }) => {
   );
 };
 
-export default function Home({ forceUnlock = false }) {
+export default function Home() {
+  const router = useRouter();
+  const { forceUnlock } = router.query;
+  const isForceUnlocked = forceUnlock === 'true';
+
   const [isLocked, setIsLocked] = useState(true);
   const [currentCard, setCurrentCard] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
   const audioRef = useRef();
 
   useEffect(() => {
-    if (forceUnlock) {
+    if (isForceUnlocked) {
       setIsLocked(false);
     } else {
       const today = new Date();
@@ -62,10 +69,10 @@ export default function Home({ forceUnlock = false }) {
         setIsLocked(false);
       }
     }
-  }, [forceUnlock]);
+  }, [isForceUnlocked]);
 
   useEffect(() => {
-    if (isLocked) return;
+    if (isLocked || !isAuthenticated) return;
     const confettiSettings = {
       target: "canvas",
       start_from_edge: true,
@@ -84,7 +91,44 @@ export default function Home({ forceUnlock = false }) {
     }
 
     return () => confetti.clear();
-  }, [isLocked]);
+  }, [isLocked, isAuthenticated]);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === "NGOROK") {
+      setIsAuthenticated(true);
+    } else {
+      alert("Password salah!");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-cream-light via-rosegold-light to-amber-100 font-sans p-4">
+        <Head>
+          <title>Enter Password</title>
+        </Head>
+        <div className="bg-white/40 p-8 rounded-3xl shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] text-center backdrop-blur-2xl border border-white/30 max-w-sm w-full">
+          <h1 className="text-3xl text-rosegold-dark mb-6 font-serif">Masukkan Password</h1>
+          <form onSubmit={handlePasswordSubmit} className="flex flex-col items-center w-full">
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              className="w-full border border-rosegold/40 bg-white/60 rounded-xl px-4 py-3 mb-6 text-center text-gray-700 focus:outline-none focus:ring-2 focus:ring-rosegold/50 placeholder-gray-400"
+              placeholder="Password..."
+            />
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-rosegold to-rosegold-dark text-white font-medium px-6 py-3 rounded-full hover:shadow-[0_0_20px_rgba(183,110,121,0.6)] hover:scale-105 transition-all duration-300 shadow-[0_4px_15px_rgba(183,110,121,0.4)]"
+            >
+              Masuk
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   if (isLocked) {
     return (
@@ -184,10 +228,10 @@ export default function Home({ forceUnlock = false }) {
               <div className="opacity-0 animate-fadeUp w-24 h-[1px] bg-gradient-to-r from-transparent via-rosegold-dark to-transparent mx-auto mb-10" style={{ animationDelay: '300ms' }}></div>
               <div className="opacity-0 animate-fadeUp text-xl md:text-2xl font-sans text-gray-700 leading-[1.8] font-light max-w-xl mx-auto space-y-8" style={{ animationDelay: '500ms' }}>
                 <p>
-                  Hari ini adalah tentangmu. Tentang senyummu yang selalu berhasil mencerahkan hariku, dan tawa manismu yang menjadi melodi favoritku.
+                  Hari ini adalah tentang kamu. Tentang cerewetmu yang selalu berhasil menghapus rasa sepiku, dan cara ngambekmu yang diam-diam selalu ngangenin.
                 </p>
                 <p>
-                  Aku menulis ini untuk merayakan kehadiranmu di dunia, dan yang lebih penting, <span className="font-serif italic text-rosegold-dark">kehadiranmu di hidupku.</span>
+                  Aku bikin ini buat ngerayain hari lahir kamu di dunia, dan yang paling penting, merayakan kehadiranmu yang sudah pelan-pelan ngubah hari-hariku jadi jauh lebih baik.
                 </p>
               </div>
             </div>
@@ -196,7 +240,7 @@ export default function Home({ forceUnlock = false }) {
           {/* Card 2: Visual Memory */}
           {currentCard === 2 && (
             <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-8 md:p-14 min-h-[550px] flex flex-col items-center">
-              <h2 className="opacity-0 animate-fadeUp text-3xl md:text-4xl font-serif text-rosegold-dark mb-10 text-center italic" style={{ animationDelay: '100ms' }}>Lembaran Memori Kita</h2>
+              <h2 className="opacity-0 animate-fadeUp text-3xl md:text-4xl font-serif text-rosegold-dark mb-10 text-center italic" style={{ animationDelay: '100ms' }}>Koleksi Wajah Favoritku</h2>
 
               <div className="opacity-0 animate-fadeUp grid grid-cols-2 md:grid-cols-3 gap-6 w-full max-h-[55vh] overflow-y-auto pr-3 pb-6 scrollbar-thin scrollbar-thumb-rosegold/30 scrollbar-track-transparent" style={{ animationDelay: '300ms' }}>
                 {imageFilenames.map((img, idx) => {
@@ -226,7 +270,7 @@ export default function Home({ forceUnlock = false }) {
                   )
                 })}
               </div>
-              <p className="opacity-0 animate-fadeUp mt-8 text-base text-gray-500 italic text-center font-serif" style={{ animationDelay: '500ms' }}>&quot;Setiap detiknya adalah puisi yang hidup.&quot;</p>
+              <p className="opacity-0 animate-fadeUp mt-8 text-base text-gray-500 italic text-center font-serif" style={{ animationDelay: '500ms' }}>&quot;Sekarang cuma bisa mandangin lewat layar hp, tapi sayangnya beneran nembus sampai ke hati.&quot;</p>
             </div>
           )}
 
@@ -326,9 +370,8 @@ export default function Home({ forceUnlock = false }) {
                 onClick={nextCard}
                 className="flex items-center space-x-2 px-8 py-3 rounded-full bg-gradient-to-r from-rosegold to-rosegold-dark text-white font-medium shadow-[0_4px_15px_rgba(183,110,121,0.4)] hover:shadow-[0_0_20px_rgba(183,110,121,0.6)] hover:scale-105 transition-all duration-300"
               >
-                <span className="hidden sm:inline">Lanjutkan</span>
+                <span className="hidden sm:inline">Next</span>
                 <span>⏩</span>
-                <span className="ml-2 pl-2 border-l border-white/30 text-sm font-light">Celebrate with Nadin&apos;s Voice 🎵</span>
               </button>
             ) : (
               <div className="flex items-center space-x-3">
