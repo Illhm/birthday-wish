@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Image from "next/image";
 import ConfettiGenerator from "confetti-js";
-import Carousel from "../components/Carousel";
 import LockScreen from "../components/LockScreen";
-import { useIntersection } from "react-use";
 
 const imageFilenames = [
   "IMG-20260305-WA0024.jpg",
@@ -28,19 +26,35 @@ const imageFilenames = [
   "IMG-20260326-WA0005.jpg",
 ];
 
-const carouselImages = imageFilenames.map((filename) => ({
-  src: `/image/${filename}`,
-  caption: "A beautiful memory ❤️",
-}));
+// Helper to stagger words for reveal
+const StaggeredText = ({ text, className }) => {
+  const words = text.split(" ");
+  return (
+    <div className={className}>
+      {words.map((word, index) => (
+        <span
+          key={index}
+          className="inline-block opacity-0 animate-fadeUp"
+          style={{ animationDelay: `${index * 200}ms` }}
+        >
+          {word}&nbsp;
+        </span>
+      ))}
+    </div>
+  );
+};
 
 export default function Home({ forceUnlock = false }) {
   const [isLocked, setIsLocked] = useState(true);
+  const [currentCard, setCurrentCard] = useState(0);
+  const audioRef = useRef();
 
   useEffect(() => {
     if (forceUnlock) {
       setIsLocked(false);
     } else {
       const today = new Date();
+      // Production unlock date
       const unlockDate = new Date("2026-03-27T00:00:00");
       if (today >= unlockDate) {
         setIsLocked(false);
@@ -48,142 +62,235 @@ export default function Home({ forceUnlock = false }) {
     }
   }, [forceUnlock]);
 
-  const audioRef = useRef();
-  const [isPlaying, setIsPlaying] = useState(false);
-
   useEffect(() => {
-    // Only run confetti when not locked
     if (isLocked) return;
-
     const confettiSettings = {
       target: "canvas",
       start_from_edge: true,
-      colors: [[183, 110, 121], [253, 232, 232], [255, 245, 245]], // Rosegold, light blush, cream
-      clock: 15,
-      max: 150,
-      size: 1.2,
-      props: ["circle", "square"]
+      colors: [[183, 110, 121], [253, 232, 232], [255, 245, 245], [253, 230, 138], [224, 242, 254]],
+      clock: 12,
+      max: 60, // less confetti, more elegant
+      size: 1.5,
+      props: ["circle"]
     };
     const confetti = new ConfettiGenerator(confettiSettings);
     confetti.render();
-
     return () => confetti.clear();
   }, [isLocked]);
 
-  const toggleAudio = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const galleryRef = useRef(null);
-  const galleryIntersection = useIntersection(galleryRef, {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.1,
-  });
-
   if (isLocked) {
     return (
-      <div className={styles.container}>
+      <div className="min-h-screen">
         <Head>
           <title>Selamat Ulang Tahun, Kasihku!</title>
-          <meta name="description" content="A special birthday wish for you" />
-          <link rel="icon" href="/favicon.ico" />
         </Head>
         <LockScreen />
       </div>
     );
   }
 
+  const handleStart = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
+    setCurrentCard(1);
+  };
+
+  const nextCard = () => {
+    if (currentCard < 4) setCurrentCard(prev => prev + 1);
+  };
+
+  const prevCard = () => {
+    if (currentCard > 1) setCurrentCard(prev => prev - 1);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream-light to-rosegold-light flex flex-col items-center justify-center font-sans text-rosegold-dark relative overflow-hidden">
+    <div className="min-h-screen relative font-sans text-rosegold-dark overflow-hidden bg-[length:400%_400%] animate-movingBg bg-gradient-to-tr from-cream-light via-rosegold-light to-amber-100">
+
+      {/* Decorative floating particles */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+         {[...Array(15)].map((_, i) => (
+           <div
+             key={i}
+             className="absolute w-2 h-2 rounded-full bg-white/40 blur-sm shadow-[0_0_8px_4px_rgba(255,255,255,0.3)] animate-floatUp"
+             style={{
+               left: `${Math.random() * 100}%`,
+               animationDuration: `${10 + Math.random() * 15}s`,
+               animationDelay: `${Math.random() * 5}s`
+             }}
+           />
+         ))}
+      </div>
+
       <Head>
-        <title>Selamat Ulang Tahun, Kasihku!</title>
-        <meta name="description" content="A special birthday wish for you" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Selamat Ulang Tahun, Ansa!</title>
       </Head>
-
-      <canvas className="fixed inset-0 pointer-events-none z-0" id="canvas"></canvas>
-
-      <main className="z-10 w-full max-w-4xl px-4 py-12 flex flex-col items-center">
-        {/* Simple & Elegant Greeting Section */}
-        <div className="relative overflow-hidden bg-white/30 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(227,168,177,0.4)] rounded-3xl p-8 md:p-16 text-center mb-16 max-w-2xl w-full animate-fadeUp">
-          {/* Subtle Background Texture */}
-          <div className="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b76e79' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}></div>
-
-          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-serif font-semibold mb-6 text-rosegold tracking-wide drop-shadow-sm leading-tight">
-            Selamat Ulang Tahun, <br className="md:hidden" /> Kasihku
-          </h1>
-
-          <div className="relative z-10 w-24 h-px bg-rosegold/50 mx-auto mb-8"></div>
-
-          <div className="relative z-10 flex flex-col items-center space-y-8 text-lg md:text-xl font-sans text-gray-700 leading-relaxed font-light">
-            <p className="font-serif italic text-2xl text-rosegold-dark opacity-90">
-              &quot;Di setiap detik yang berlalu, ada cinta yang terus tumbuh untukmu.&quot;
-            </p>
-
-            <div className="flex items-center space-x-2 text-rosegold/60 text-sm">
-              <span>•</span>
-              <span className="text-lg">✨</span>
-              <span>•</span>
-            </div>
-
-            <p className="max-w-xl text-center">
-              Mengingat kembali hari pertama kita bertemu, rasanya waktu berjalan begitu cepat. Setiap memori yang kita buat bersama menjadi harta paling berharga dalam hidupku.
-            </p>
-
-            <p className="max-w-xl text-center">
-              Di hari istimewamu ini, aku berharap kamu selalu dilimpahi kebahagiaan, kesehatan, dan senyuman yang tak pernah pudar. Semoga semua impianmu menjadi kenyataan, dan aku bisa selalu ada di sisimu.
-            </p>
-
-            <div className="mt-8">
-              <p className="font-serif text-2xl font-medium text-rosegold-dark">
-                Selamanya milikmu,
-              </p>
-              <p className="font-serif text-2xl text-rosegold mt-2">
-                [ Namamu ]
-              </p>
-            </div>
-          </div>
-
-          <button
-            className="relative z-10 mt-14 flex items-center justify-center space-x-3 mx-auto px-6 py-3 rounded-full border border-rosegold/30 bg-white/50 text-rosegold-dark hover:bg-rosegold-light/50 hover:border-rosegold/50 hover:animate-pulseGlow transition-all duration-500 tracking-wide uppercase text-sm font-medium shadow-sm hover:shadow-md"
-            onClick={toggleAudio}
-          >
-            {isPlaying ? (
-              <>
-                <span className="animate-pulse">Pause Music ⏸️</span>
-              </>
-            ) : (
-              <>
-                <span>Celebrate with Nadin&apos;s Voice</span>
-                <span className="text-lg">🎵</span>
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Dynamic Photo Gallery */}
-        <div
-          ref={galleryRef}
-          className={`w-full relative transition-all duration-1000 ease-out transform ${
-            galleryIntersection && galleryIntersection.intersectionRatio > 0.1
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-12"
-          }`}
-        >
-          <h2 className="text-3xl font-serif text-center text-[#b76e79] mb-8 drop-shadow-sm">Our Beautiful Memories</h2>
-          <Carousel images={carouselImages} />
-        </div>
-      </main>
+      <canvas className="fixed inset-0 pointer-events-none z-0 opacity-50" id="canvas"></canvas>
 
       <audio ref={audioRef} loop>
         <source src="media/hbd.mp3" type="audio/mpeg" />
       </audio>
+
+      <main className="z-10 w-full max-w-3xl mx-auto px-4 py-12 flex flex-col items-center relative min-h-screen justify-center">
+
+        {/* Render Card based on state */}
+        <div className="relative w-full transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]">
+
+          {/* Card 0: Cover */}
+          {currentCard === 0 && (
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-12 text-center flex flex-col items-center justify-center min-h-[450px]">
+               <StaggeredText
+                 text="Ada pesan puitis yang menunggu untukmu..."
+                 className="text-3xl md:text-4xl font-serif text-rosegold-dark mb-16 tracking-wide leading-relaxed"
+               />
+               <button
+                 onClick={handleStart}
+                 className="opacity-0 animate-fadeUp px-10 py-4 rounded-full border border-rosegold/40 bg-white/40 text-rosegold-dark font-medium text-lg shadow-[0_4px_20px_0_rgba(183,110,121,0.2)] hover:bg-rosegold hover:text-white hover:border-rosegold transition-all duration-500 flex items-center space-x-4"
+                 style={{ animationDelay: '1200ms' }}
+               >
+                 <span>Buka Surat</span>
+                 <span className="text-2xl drop-shadow-sm">💌</span>
+               </button>
+            </div>
+          )}
+
+          {/* Card 1: The Hook */}
+          {currentCard === 1 && (
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-10 md:p-16 text-center min-h-[550px] flex flex-col justify-center">
+              <h1 className="opacity-0 animate-fadeUp text-5xl md:text-7xl font-serif font-medium mb-10 text-rosegold-dark tracking-wide leading-tight" style={{ animationDelay: '100ms' }}>
+                Selamat Ulang Tahun, <br /> <span className="text-rosegold italic mt-2 inline-block">Ansa.</span>
+              </h1>
+              <div className="opacity-0 animate-fadeUp w-24 h-[1px] bg-gradient-to-r from-transparent via-rosegold-dark to-transparent mx-auto mb-10" style={{ animationDelay: '300ms' }}></div>
+              <div className="opacity-0 animate-fadeUp text-xl md:text-2xl font-sans text-gray-700 leading-[1.8] font-light max-w-xl mx-auto space-y-8" style={{ animationDelay: '500ms' }}>
+                <p>
+                  Hari ini adalah tentangmu. Tentang senyummu yang selalu berhasil mencerahkan hariku, dan tawa manismu yang menjadi melodi favoritku.
+                </p>
+                <p>
+                  Aku menulis ini untuk merayakan kehadiranmu di dunia, dan yang lebih penting, <span className="font-serif italic text-rosegold-dark">kehadiranmu di hidupku.</span>
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Card 2: Visual Memory */}
+          {currentCard === 2 && (
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-8 md:p-14 min-h-[550px] flex flex-col items-center">
+              <h2 className="opacity-0 animate-fadeUp text-3xl md:text-4xl font-serif text-rosegold-dark mb-10 text-center italic" style={{ animationDelay: '100ms' }}>Lembaran Memori Kita</h2>
+
+              <div className="opacity-0 animate-fadeUp grid grid-cols-2 md:grid-cols-3 gap-6 w-full max-h-[55vh] overflow-y-auto pr-3 pb-6 scrollbar-thin scrollbar-thumb-rosegold/30 scrollbar-track-transparent" style={{ animationDelay: '300ms' }}>
+                {imageFilenames.map((img, idx) => {
+                  // asimetris rotation untuk efek polaroid tumpuk
+                  const rotation = idx % 2 === 0 ? `rotate-${Math.floor(Math.random() * 3) + 1}` : `-rotate-${Math.floor(Math.random() * 3) + 1}`;
+                  return (
+                    <div key={idx} className={`relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg p-2 bg-white/70 border border-white/80 group transition-transform duration-500 hover:scale-110 hover:z-20 transform ${rotation}`}>
+                      <div className="absolute inset-0 z-0">
+                        <Image
+                          src={`/image/${img}`}
+                          alt="memory bg"
+                          layout="fill"
+                          objectFit="cover"
+                          className="blur-2xl opacity-50 scale-125"
+                        />
+                      </div>
+                      <div className="relative z-10 w-full h-full rounded shadow-[inset_0_0_10px_rgba(0,0,0,0.1)]">
+                        <Image
+                          src={`/image/${img}`}
+                          alt="memory"
+                          layout="fill"
+                          objectFit="contain"
+                          className="rounded"
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              <p className="opacity-0 animate-fadeUp mt-8 text-base text-gray-500 italic text-center font-serif" style={{ animationDelay: '500ms' }}>&quot;Setiap detiknya adalah puisi yang hidup.&quot;</p>
+            </div>
+          )}
+
+          {/* Card 3: Appreciation */}
+          {currentCard === 3 && (
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-10 md:p-16 min-h-[550px] flex flex-col justify-center items-center">
+              <h2 className="opacity-0 animate-fadeUp text-4xl font-serif text-rosegold-dark text-center mb-14" style={{ animationDelay: '100ms' }}>Hal yang Aku Suka Dari Kamu</h2>
+
+              <ul className="space-y-8 max-w-lg mx-auto w-full text-gray-700 text-xl font-sans">
+                <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '300ms' }}>
+                  <span className="text-rosegold-dark text-2xl mt-1 drop-shadow-[0_0_4px_rgba(183,110,121,0.5)] blur-[0.5px]">🌟</span>
+                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 1: misalnya, caramu menatapku saat sedang bercerita ]</span>
+                </li>
+                <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '500ms' }}>
+                  <span className="text-rosegold-light text-2xl mt-1 drop-shadow-[0_0_4px_rgba(253,232,232,0.8)] blur-[0.5px]">❤️</span>
+                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 2: kebaikan hatimu yang tak pernah habis untuk orang sekitar ]</span>
+                </li>
+                <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '700ms' }}>
+                  <span className="text-rosegold-dark text-2xl mt-1 drop-shadow-[0_0_4px_rgba(183,110,121,0.5)] blur-[0.5px]">🌟</span>
+                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 3: tawamu yang menular dan mencerahkan suasana ]</span>
+                </li>
+                <li className="opacity-0 animate-fadeUp flex items-start space-x-5" style={{ animationDelay: '900ms' }}>
+                  <span className="text-rosegold-light text-2xl mt-1 drop-shadow-[0_0_4px_rgba(253,232,232,0.8)] blur-[0.5px]">❤️</span>
+                  <span className="font-light leading-relaxed">[ Isi dengan hal manis 4: caramu membuat segalanya terasa lebih mudah saat kita bersama ]</span>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {/* Card 4: The Conclusion */}
+          {currentCard === 4 && (
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/30 shadow-[0_10px_40px_-10px_rgba(183,110,121,0.2),0_20px_60px_-15px_rgba(0,0,0,0.05)] rounded-3xl p-12 md:p-20 min-h-[550px] flex flex-col justify-center">
+              <h2 className="opacity-0 animate-fadeUp text-4xl font-serif text-rosegold-dark mb-10 text-left" style={{ animationDelay: '100ms' }}>Doaku Untukmu...</h2>
+
+              <div className="opacity-0 animate-fadeUp text-xl md:text-2xl font-sans text-gray-700 leading-[2] font-light space-y-10" style={{ animationDelay: '300ms' }}>
+                <p className="ml-8 md:ml-12 mr-4">
+                  Semoga tahun ini membawa lebih banyak kedamaian, kebahagiaan, dan langkah-langkah baru yang membawamu semakin dekat dengan mimpimu.
+                </p>
+                <p className="mr-8 md:mr-12 ml-4 text-right">
+                  Apapun yang terjadi ke depannya, aku berharap kita bisa selalu berpegangan tangan. <br/> <span className="italic text-rosegold-dark">Menghadapi sedih bersama, merayakan bahagia berdua.</span>
+                </p>
+                <p className="font-serif text-3xl text-rosegold-dark mt-16 text-center italic opacity-90">
+                  Selamat bertambah usia, sayang.
+                </p>
+              </div>
+
+              <div className="opacity-0 animate-fadeUp mt-20 text-right mr-8" style={{ animationDelay: '600ms' }}>
+                <p className="font-sans text-lg font-light text-gray-500 mb-2">Selamanya milikmu,</p>
+                <p className="font-serif text-4xl text-rosegold-dark drop-shadow-sm">[ Namamu ]</p>
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        {/* Navigation Controls */}
+        {currentCard > 0 && (
+          <div className="w-full max-w-2xl flex justify-between items-center mt-12 px-2 animate-fadeUp">
+            <button
+              onClick={prevCard}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-full border border-rosegold/20 bg-white/20 backdrop-blur-sm text-rosegold-dark font-medium shadow-sm hover:bg-white/40 hover:shadow-[0_0_15px_rgba(183,110,121,0.3)] hover:scale-105 transition-all duration-300 ${currentCard === 1 ? 'opacity-0 cursor-default pointer-events-none' : 'opacity-100'}`}
+            >
+              <span>⏪</span>
+              <span className="hidden sm:inline">Putar Kembali</span>
+            </button>
+
+            {currentCard < 4 ? (
+              <button
+                onClick={nextCard}
+                className="flex items-center space-x-2 px-8 py-3 rounded-full bg-gradient-to-r from-rosegold to-rosegold-dark text-white font-medium shadow-[0_4px_15px_rgba(183,110,121,0.4)] hover:shadow-[0_0_20px_rgba(183,110,121,0.6)] hover:scale-105 transition-all duration-300"
+              >
+                <span className="hidden sm:inline">Lanjutkan</span>
+                <span>⏩</span>
+                <span className="ml-2 pl-2 border-l border-white/30 text-sm font-light">Celebrate with Nadin&apos;s Voice 🎵</span>
+              </button>
+            ) : (
+              <div className="px-8 py-3 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 font-serif text-2xl text-rosegold-dark italic font-medium shadow-sm flex items-center space-x-3">
+                <span>I Love You</span>
+                <span className="animate-pulse">❤️</span>
+              </div>
+            )}
+          </div>
+        )}
+
+      </main>
     </div>
   );
 }
