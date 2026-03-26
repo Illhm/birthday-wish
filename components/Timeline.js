@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, startOfDay, addDays } from 'date-fns';
 import { Lock, Heart, Star, Sparkles, Gift } from 'lucide-react';
 
-const TimelineNode = ({ day, isLocked, message, icon: Icon, date }) => {
+const TimelineNode = ({ day, isLocked, rewrittenMessage, greeting, icon: Icon, date }) => {
   const [isVisible, setIsVisible] = useState(false);
   const nodeRef = React.useRef(null);
 
@@ -76,9 +76,16 @@ const TimelineNode = ({ day, isLocked, message, icon: Icon, date }) => {
                 <p className="text-sm font-medium italic">Unlocks soon...</p>
               </div>
             ) : (
-              <p className="text-gray-700 leading-relaxed font-medium">
-                {message}
-              </p>
+              <div className="space-y-3">
+                <p className="text-gray-700 leading-relaxed font-medium text-lg">
+                  &quot;{rewrittenMessage}&quot;
+                </p>
+                <div className="bg-pink-50 p-3 rounded-lg border border-pink-100">
+                  <p className="text-pink-600 italic text-sm font-medium">
+                    {greeting}
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -160,7 +167,8 @@ const Timeline = ({ events }) => {
                 day={event.day}
                 date={event.date}
                 isLocked={isLocked}
-                message={event.message}
+                rewrittenMessage={event.rewrittenMessage}
+                greeting={event.greeting}
                 icon={event.icon}
               />
             );
