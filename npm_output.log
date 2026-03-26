@@ -5,9 +5,7 @@
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
 info  - Using webpack 5. Reason: Enabled by default https://nextjs.org/docs/messages/webpack5
 event - compiled successfully
-event - build page: /
-wait  - compiling...
-event - compiled successfully
+event - build page: /tes
 wait  - compiling...
 info  - Using external babel configuration from /app/.babelrc
 event - compiled successfully
