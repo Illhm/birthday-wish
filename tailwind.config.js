@@ -21,12 +21,20 @@ module.exports = {
         },
         blush: {
           light: '#f4dada',
+        },
+        amber: {
+          soft: '#fde68a', // warm amber hint
+        },
+        sky: {
+          soft: '#e0f2fe', // soft sky blue hint
         }
       },
       animation: {
         fadeUp: 'fadeUp 1.5s ease-out forwards',
         pulseGlow: 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         float: 'float 6s ease-in-out infinite',
+        movingBg: 'movingBg 15s ease infinite',
+        floatUp: 'floatUp 10s linear infinite',
       },
       keyframes: {
         fadeUp: {
@@ -40,6 +48,17 @@ module.exports = {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        movingBg: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        floatUp: {
+          '0%': { transform: 'translateY(100vh) scale(0.5)', opacity: 0 },
+          '10%': { opacity: 0.5 },
+          '90%': { opacity: 0.5 },
+          '100%': { transform: 'translateY(-10vh) scale(1)', opacity: 0 },
         }
       }
     },
