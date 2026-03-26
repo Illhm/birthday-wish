@@ -8,6 +8,3 @@ event - compiled successfully
 event - build page: /
 wait  - compiling...
 event - compiled successfully
-wait  - compiling...
-info  - Using external babel configuration from /app/.babelrc
-event - compiled successfully

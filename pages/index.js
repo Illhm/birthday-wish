@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     const today = new Date();
-    const unlockDate = new Date("2026-03-27T00:00:00");
+    const unlockDate = new Date("2023-01-01T00:00:00"); // Changed to a past date for testing
     if (today >= unlockDate) {
       setIsLocked(false);
     }
