@@ -11,15 +11,19 @@ import { addDays, subDays } from "date-fns";
 // Import raw JSON data
 import messagesData from "../data/messages.json";
 
-export default function Home() {
+export default function Home({ forceUnlock = false }) {
   const [timelineEvents, setTimelineEvents] = useState([]);
   const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
-    const today = new Date();
-    const unlockDate = new Date("2023-01-01T00:00:00"); // Changed to a past date for testing
-    if (today >= unlockDate) {
+    if (forceUnlock) {
       setIsLocked(false);
+    } else {
+      const today = new Date();
+      const unlockDate = new Date("2026-03-27T00:00:00");
+      if (today >= unlockDate) {
+        setIsLocked(false);
+      }
     }
 
     // Map JSON string dates to Date objects and string icons to components
@@ -37,7 +41,7 @@ export default function Home() {
     }));
 
     setTimelineEvents(parsedEvents);
-  }, []);
+  }, [forceUnlock]);
 
   const carouselImages = [
     {
