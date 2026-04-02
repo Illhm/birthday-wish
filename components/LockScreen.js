@@ -45,36 +45,47 @@ export default function LockScreen() {
   const displayTimeLeft = isClient ? timeLeft : { days: "--", hours: "--", minutes: "--", seconds: "--" };
 
   return (
-    <div className="fixed inset-0 z-50 bg-pink-50/90 backdrop-blur-md flex flex-col items-center justify-center p-4">
-      <div className="max-w-xl w-full text-center flex flex-col items-center space-y-8">
-        <Heart className="text-pink-400 animate-pulse" size={48} />
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-peach-light via-rosegold-light to-amber-soft/50 backdrop-blur-md flex flex-col items-center justify-center p-4 overflow-hidden">
 
-        <h1 className="text-3xl md:text-5xl font-serif text-pink-600 drop-shadow-sm px-4">
-          The countdown to your special day has begun...
+      {/* Ambient Blobs */}
+      <div className="absolute top-0 -left-4 w-72 h-72 bg-rosegold rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+      <div className="absolute top-0 -right-4 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-amber-soft rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+
+      <div className="relative max-w-2xl w-full text-center flex flex-col items-center space-y-10 z-10 bg-white/40 backdrop-blur-xl border border-white/50 p-10 md:p-16 rounded-3xl shadow-[0_8px_32px_0_rgba(183,110,121,0.2)]">
+        <div className="relative">
+          <Heart className="text-rosegold-dark animate-pulseGlow filter drop-shadow-[0_0_10px_rgba(183,110,121,0.5)]" size={56} />
+          {/* Subtle Sparkle */}
+          <div className="absolute -top-2 -right-2 w-3 h-3 bg-white rounded-full animate-sparkle shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+        </div>
+
+        <h1 className="text-4xl md:text-6xl font-serif text-rosegold-dark drop-shadow-md px-4 leading-tight">
+          Menunggu Hari <br/><span className="italic text-rosegold font-light mt-2 block">Spesialmu...</span>
         </h1>
 
-        <p className="text-gray-600 text-lg md:text-xl font-medium px-4 max-w-md">
-          A collection of our most cherished memories is waiting for you. Just a little bit longer until we celebrate you.
+        <p className="text-gray-700 text-lg md:text-xl font-sans font-light px-4 max-w-lg leading-relaxed">
+          Sebuah koleksi kenangan kita sudah menunggu untuk dibuka. Sabar sedikit lagi ya, sampai waktu kita merayakanmu tiba.
         </p>
 
-        <div className="flex justify-center gap-3 md:gap-6 flex-wrap w-full mt-8">
+        <div className="flex justify-center gap-4 md:gap-8 flex-wrap w-full mt-10">
           {Object.entries(displayTimeLeft).map(([unit, value]) => (
             <div
               key={unit}
-              className="flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 bg-white/60 backdrop-blur-lg rounded-2xl shadow-xl border border-white/50 text-pink-500"
+              className="flex flex-col items-center justify-center w-24 h-28 md:w-32 md:h-36 bg-white/50 backdrop-blur-2xl rounded-2xl shadow-[0_10px_40px_-10px_rgba(183,110,121,0.3)] border border-white/60 text-rosegold-dark hover:transform hover:scale-105 transition-all duration-300 group"
             >
-              <span className="text-3xl md:text-5xl font-bold font-mono tracking-tight drop-shadow-md">
+              <span className="text-4xl md:text-6xl font-serif font-medium tracking-tight drop-shadow-sm group-hover:text-rosegold transition-colors">
                 {typeof value === 'number' ? value.toString().padStart(2, "0") : value}
               </span>
-              <span className="text-xs md:text-sm font-medium uppercase tracking-wider text-pink-400 mt-2">
+              <span className="text-xs md:text-sm font-sans font-medium uppercase tracking-widest text-rosegold-dark/70 mt-3 group-hover:text-rosegold transition-colors">
                 {unit}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="mt-12 opacity-70">
-           <p className="text-sm text-pink-400 font-medium tracking-wide">March 27, 2026</p>
+        <div className="mt-14 flex flex-col items-center opacity-80">
+           <div className="w-12 h-[1px] bg-rosegold-dark/40 mb-4"></div>
+           <p className="text-sm font-sans text-rosegold-dark font-medium tracking-widest uppercase">27 Maret 2026</p>
         </div>
       </div>
     </div>
