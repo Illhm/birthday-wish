@@ -122,3 +122,39 @@ input[type="radio"].red:checked:after {
   background-color: var(--red);
   box-shadow: 0 0 0 2px var(--red);
 }
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animation-delay-6000 {
+  animation-delay: 6s;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/30 backdrop-blur-xl border border-white/40 shadow-glass;
+}
+
+.glass-panel-heavy {
+  @apply bg-white/50 backdrop-blur-2xl border border-white/60 shadow-glass;
+}
+
+/* Scrollbar customization for the gallery */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(183, 110, 121, 0.3);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(183, 110, 121, 0.6);
+}
