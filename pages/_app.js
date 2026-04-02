@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
     setHistory((h) => [h[h.length - 1], router.pathname]);
   }, [router]);
 
-  return <Component history={history} {...pageProps} />;
+  return <Component history={history} pageProps={pageProps} />;
 }
 
 export default MyApp;
