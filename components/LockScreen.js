@@ -45,19 +45,35 @@ export default function LockScreen() {
   const displayTimeLeft = isClient ? timeLeft : { days: "--", hours: "--", minutes: "--", seconds: "--" };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden flex flex-col items-center justify-center p-4 bg-gradient-to-br from-champagne-light via-rosegold-light/50 to-blush-light">
+    <div className="fixed inset-0 z-50 overflow-hidden flex flex-col items-center justify-center p-4 bg-gradient-to-br from-champagne-light via-rosegold-light/50 to-blush-light animate-auroraBg bg-[length:200%_200%]">
       {/* Decorative ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-rosegold/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-        <div className="absolute top-1/3 -right-20 w-96 h-96 bg-champagne-dark/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-32 left-1/2 w-96 h-96 bg-blush-dark/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-1/4 -left-20 w-[30rem] h-[30rem] bg-rosequartz/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
+        <div className="absolute top-1/3 -right-20 w-[30rem] h-[30rem] bg-champagne-dark/30 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-32 left-1/2 w-[40rem] h-[40rem] bg-blush-dark/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-70 animate-blob animation-delay-4000"></div>
+
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-white/80 blur-[1px] shadow-[0_0_15px_3px_rgba(255,255,255,0.6)] animate-firefly"
+            style={{
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 5}s`,
+              animationDelay: `${Math.random() * 5}s`
+            }}
+          />
+        ))}
       </div>
 
-      <div className="glass-panel-heavy p-8 md:p-14 rounded-[40px] max-w-2xl w-full text-center flex flex-col items-center space-y-10 z-10 relative overflow-hidden animate-scale-in">
+      <div className="glass-panel-heavy p-8 md:p-14 rounded-[40px] max-w-2xl w-full text-center flex flex-col items-center space-y-10 z-10 relative overflow-hidden animate-scale-in shadow-soft-aura">
         <div className="absolute inset-0 bg-white/20 z-0 pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col items-center w-full">
-          <Heart className="text-rosegold-deep animate-pulseGlow mb-6 drop-shadow-md" size={42} strokeWidth={1.5} />
+          <Heart className="text-rosegold-deep animate-heartbeat mb-6 drop-shadow-md" size={42} strokeWidth={1.5} />
 
           <h1 className="text-3xl md:text-5xl font-serif text-rosegold-deep tracking-wide leading-tight px-2 mb-4 drop-shadow-sm">
             Menunggu Hari Spesialmu...
@@ -71,7 +87,7 @@ export default function LockScreen() {
             {Object.entries(displayTimeLeft).map(([unit, value]) => (
               <div
                 key={unit}
-                className="flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 bg-white/40 backdrop-blur-md rounded-3xl shadow-[0_8px_32px_0_rgba(183,110,121,0.15)] border border-white/60 text-rosegold-deep group hover:scale-105 hover:bg-white/50 hover:shadow-glow transition-all duration-500 ease-out"
+                className="flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 bg-white/30 backdrop-blur-xl rounded-[2rem] shadow-premium-glass text-rosegold-deep group hover:scale-105 hover:bg-white/40 hover:shadow-glow-gold transition-all duration-500 ease-out"
               >
                 <span className="text-3xl md:text-5xl font-serif font-medium tracking-tight group-hover:drop-shadow-md transition-all">
                   {typeof value === 'number' ? value.toString().padStart(2, "0") : value}

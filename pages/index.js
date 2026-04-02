@@ -176,26 +176,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen relative font-sans text-rosegold-dark overflow-hidden bg-gradient-to-br from-champagne-light via-blush-light/50 to-rosegold-light/40 animate-movingBg bg-[length:200%_200%]">
+    <div className="min-h-screen relative font-sans text-rosegold-dark overflow-hidden bg-gradient-to-br from-champagne-light via-blush-light/50 to-rosegold-light/40 animate-auroraBg bg-[length:200%_200%]">
 
       {/* Redesigned Ambient Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Soft glowing orbs */}
-        <div className="absolute top-0 -left-40 w-96 h-96 bg-rosegold/10 rounded-full mix-blend-multiply filter blur-[80px] opacity-70 animate-blob"></div>
-        <div className="absolute top-1/4 -right-20 w-[30rem] h-[30rem] bg-champagne-dark/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-60 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-40 left-1/4 w-[40rem] h-[40rem] bg-blush-dark/15 rounded-full mix-blend-multiply filter blur-[120px] opacity-80 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-0 -left-40 w-[40rem] h-[40rem] bg-rosequartz/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-70 animate-blob"></div>
+        <div className="absolute top-1/4 -right-20 w-[45rem] h-[45rem] bg-champagne-dark/20 rounded-full mix-blend-multiply filter blur-[130px] opacity-60 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-40 left-1/4 w-[50rem] h-[50rem] bg-blush-dark/15 rounded-full mix-blend-multiply filter blur-[140px] opacity-80 animate-blob animation-delay-4000"></div>
 
         {/* Decorative floating particles */}
-         {[...Array(20)].map((_, i) => (
+         {[...Array(25)].map((_, i) => (
            <div
              key={i}
-             className="absolute rounded-full bg-white/60 blur-[1px] shadow-[0_0_10px_2px_rgba(255,255,255,0.4)] animate-floatUp"
+             className="absolute rounded-full bg-white/80 blur-[1px] shadow-[0_0_15px_3px_rgba(255,255,255,0.6)] animate-firefly"
              style={{
-               width: `${Math.random() * 4 + 1}px`,
-               height: `${Math.random() * 4 + 1}px`,
+               width: `${Math.random() * 5 + 2}px`,
+               height: `${Math.random() * 5 + 2}px`,
                left: `${Math.random() * 100}%`,
-               animationDuration: `${10 + Math.random() * 20}s`,
-               animationDelay: `${Math.random() * 10}s`
+               top: `${Math.random() * 100}%`,
+               animationDuration: `${5 + Math.random() * 10}s`,
+               animationDelay: `${Math.random() * 5}s`
              }}
            />
          ))}
@@ -217,186 +218,210 @@ export default function Home() {
 
           {/* Card 0: Cover */}
           {currentCard === 0 && (
-            <div className="glass-panel-heavy p-12 md:p-16 rounded-[40px] text-center flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden group">
-               <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none rounded-[40px]"></div>
-               <StaggeredText
-                 text="Ada pesan puitis yang menunggu untukmu..."
-                 className="text-3xl md:text-5xl font-serif text-rosegold-deep mb-20 tracking-wide leading-[1.4] drop-shadow-sm"
-               />
-               <button
-                 onClick={handleStart}
-                 className="opacity-0 animate-fadeUp relative group px-10 py-5 rounded-full border border-rosegold/30 bg-white/50 backdrop-blur-md text-rosegold-deep font-sans tracking-widest uppercase text-sm font-semibold shadow-glass hover:bg-gradient-to-r hover:from-rosegold hover:to-rosegold-dark hover:text-white hover:shadow-glow-strong hover:scale-[1.02] transition-all duration-500 ease-out flex items-center space-x-4 overflow-hidden"
-                 style={{ animationDelay: '1200ms' }}
-               >
-                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:animate-shimmer pointer-events-none"></div>
-                 <span className="relative z-10">Buka Surat</span>
-                 <span className="text-2xl drop-shadow-sm relative z-10 group-hover:animate-pulse">💌</span>
-               </button>
+            <div className="animate-float-slow p-8 md:p-12 text-center flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden group">
+               {/* Soft envelope aura */}
+               <div className="absolute inset-0 bg-white/40 backdrop-blur-2xl rounded-[3rem] shadow-soft-aura pointer-events-none border border-white/60"></div>
+               <div className="absolute inset-0 paper-texture opacity-30 rounded-[3rem] pointer-events-none"></div>
+
+               <div className="relative z-10 w-full">
+                 <StaggeredText
+                   text="Ada pesan puitis yang menunggu untukmu..."
+                   className="text-3xl md:text-5xl font-serif text-rosegold-deep mb-20 tracking-wide leading-[1.6] drop-shadow-sm px-4"
+                 />
+                 <button
+                   onClick={handleStart}
+                   className="opacity-0 animate-fadeUp relative group px-12 py-5 rounded-full border border-rosegold/30 bg-white/60 backdrop-blur-md text-rosegold-deep font-sans tracking-[0.2em] uppercase text-sm font-semibold shadow-premium-glass hover:bg-gradient-to-r hover:from-gold-dark hover:via-gold hover:to-gold-dark hover:text-white hover:shadow-glow-gold hover:scale-[1.03] transition-all duration-700 ease-out flex items-center justify-center space-x-4 overflow-hidden mx-auto"
+                   style={{ animationDelay: '1200ms' }}
+                 >
+                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:animate-shimmer pointer-events-none"></div>
+                   <span className="relative z-10 transition-colors duration-500">Buka Surat</span>
+                   <span className="text-2xl drop-shadow-sm relative z-10 group-hover:animate-pulse transition-transform duration-500 group-hover:scale-110">💌</span>
+                 </button>
+               </div>
             </div>
           )}
 
           {/* Card 1: The Hook */}
           {currentCard === 1 && (
-            <div className="glass-panel p-10 md:p-20 rounded-[40px] text-center min-h-[600px] flex flex-col justify-center relative overflow-hidden">
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-rosegold-light/40 rounded-full blur-3xl pointer-events-none"></div>
-
-              <h1 className="opacity-0 animate-fadeUp text-5xl md:text-7xl font-serif font-medium mb-8 text-rosegold-deep tracking-wide leading-tight drop-shadow-sm" style={{ animationDelay: '100ms' }}>
-                Selamat Ulang Tahun, <br /> <span className="font-cursive text-rosegold font-normal text-6xl md:text-8xl mt-4 inline-block drop-shadow-md pr-4">Ansa.</span>
+            <div className="p-8 md:p-12 text-center min-h-[600px] flex flex-col justify-center relative">
+              <h1 className="opacity-0 animate-letterReveal text-5xl md:text-7xl font-serif font-medium mb-10 text-rosegold-deep tracking-wide leading-tight drop-shadow-sm" style={{ animationDelay: '100ms' }}>
+                Selamat Ulang Tahun, <br />
+                <span className="font-cursive text-gradient-gold text-7xl md:text-9xl mt-6 inline-block pr-4 animate-sway origin-center">Ansa.</span>
               </h1>
 
-              <div className="opacity-0 animate-fadeUp flex items-center justify-center space-x-4 my-10" style={{ animationDelay: '300ms' }}>
-                 <div className="w-16 h-[1px] bg-gradient-to-r from-transparent to-rosegold/60"></div>
-                 <span className="text-rosegold text-xl animate-pulse">✨</span>
-                 <div className="w-16 h-[1px] bg-gradient-to-l from-transparent to-rosegold/60"></div>
+              <div className="opacity-0 animate-fadeUp flex items-center justify-center space-x-6 my-12" style={{ animationDelay: '800ms' }}>
+                 <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+                 <span className="text-gold text-2xl animate-pulse">✨</span>
+                 <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
               </div>
 
-              <div className="opacity-0 animate-fadeUp text-lg md:text-xl font-sans text-gray-700/90 leading-[2.2] font-light max-w-xl mx-auto space-y-8 tracking-wide" style={{ animationDelay: '500ms' }}>
-                <p>
+              <div className="opacity-0 animate-fadeUp text-lg md:text-2xl font-sans text-gray-800/90 leading-[2] font-light max-w-2xl mx-auto space-y-8 tracking-wide relative" style={{ animationDelay: '1200ms' }}>
+                <div className="absolute -left-8 -top-8 text-6xl text-gold/20 font-serif">&quot;</div>
+                <p className="relative z-10">
                   Hari ini adalah tentang kamu. Tentang cerewetmu yang selalu berhasil menghapus rasa sepiku, dan cara ngambekmu yang diam-diam selalu ngangenin.
                 </p>
-                <p>
+                <p className="relative z-10">
                   Aku bikin ini buat ngerayain hari lahir kamu di dunia, dan yang paling penting, merayakan kehadiranmu yang sudah pelan-pelan ngubah hari-hariku jadi jauh lebih baik.
                 </p>
+                <div className="absolute -right-8 -bottom-8 text-6xl text-gold/20 font-serif">&quot;</div>
               </div>
             </div>
           )}
 
-          {/* Card 2: Visual Memory - Redesigned as Scrapbook */}
+          {/* Card 2: Visual Memory - Premium Scrapbook */}
           {currentCard === 2 && (
-            <div className="glass-panel p-8 md:p-14 rounded-[40px] min-h-[650px] flex flex-col items-center overflow-hidden relative">
-              <h2 className="opacity-0 animate-fadeUp text-3xl md:text-4xl font-serif text-rosegold-deep mb-12 text-center drop-shadow-sm" style={{ animationDelay: '100ms' }}>Koleksi Wajah Favoritku</h2>
+            <div className="bg-white/30 backdrop-blur-3xl rounded-[3rem] p-8 md:p-14 min-h-[700px] flex flex-col items-center relative shadow-premium-glass border border-white/50">
+              <div className="absolute inset-0 paper-texture opacity-[0.15] rounded-[3rem] pointer-events-none"></div>
 
-              {/* Scrapbook Container */}
-              <div className="opacity-0 animate-fadeUp w-full max-h-[60vh] overflow-y-auto overflow-x-hidden pr-2 pb-12 custom-scrollbar relative" style={{ animationDelay: '300ms' }}>
+              <h2 className="opacity-0 animate-fadeUp text-4xl md:text-5xl font-serif text-rosegold-deep mb-16 text-center drop-shadow-sm relative z-10" style={{ animationDelay: '100ms' }}>
+                <span className="italic font-light">Koleksi</span> <br/>
+                <span className="font-cursive text-5xl md:text-6xl text-gradient-gold">Wajah Favoritku</span>
+              </h2>
 
-                {/* Masonry-style layout for scrapbook effect */}
-                <div className="columns-2 md:columns-3 gap-6 space-y-6 pb-8 mx-auto px-2">
+              {/* Premium Scrapbook Container */}
+              <div className="opacity-0 animate-fadeUp w-full max-h-[60vh] overflow-y-auto overflow-x-hidden pr-4 pb-16 custom-scrollbar relative z-10" style={{ animationDelay: '400ms' }}>
+                <div className="columns-2 md:columns-3 gap-8 space-y-10 pb-8 mx-auto px-4">
                   {imageFilenames.map((img, idx) => {
-                    const rotations = ['rotate-[-4deg]', 'rotate-[3deg]', 'rotate-[-2deg]', 'rotate-[5deg]', 'rotate-0', 'rotate-[-6deg]', 'rotate-[4deg]'];
+                    // More varied, expressive rotations for a true scattered polaroid feel
+                    const rotations = ['rotate-[-6deg]', 'rotate-[4deg]', 'rotate-[-3deg]', 'rotate-[7deg]', 'rotate-[-2deg]', 'rotate-[5deg]'];
                     const rotation = rotations[idx % rotations.length];
-                    const mt = idx % 2 !== 0 ? 'mt-8' : 'mt-0'; // Staggered vertical layout
+                    const mt = idx % 2 !== 0 ? 'mt-12' : 'mt-0';
+                    const isFeatured = idx % 5 === 0;
 
                     return (
                       <div
                         key={idx}
-                        className={`break-inside-avoid relative w-full rounded-sm bg-white p-3 md:p-4 pb-10 md:pb-12 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 group transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-110 hover:-translate-y-4 hover:z-30 hover:shadow-[0_20px_40px_rgba(183,110,121,0.3)] transform ${rotation} ${mt}`}
+                        className={`break-inside-avoid relative w-full bg-white p-3 md:p-4 pb-12 md:pb-16 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-gray-100 group transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-110 hover:-translate-y-6 hover:z-40 hover:shadow-[0_30px_60px_-15px_rgba(183,110,121,0.4)] transform ${rotation} ${mt} ${isFeatured ? 'scale-105' : 'scale-95'}`}
                       >
-                        {/* Tape effect */}
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-white/40 backdrop-blur-md border border-white/60 rotate-[-2deg] shadow-sm z-20"></div>
+                        {/* Premium elegant tape */}
+                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-white/60 backdrop-blur-sm border border-white/80 rotate-[-3deg] shadow-sm z-20 opacity-80 mix-blend-overlay"></div>
 
-                        <div className="relative aspect-[3/4] w-full overflow-hidden shadow-inner bg-gray-50">
+                        <div className="relative aspect-[3/4] w-full overflow-hidden shadow-inner bg-gray-100">
                           <Image
                             src={`/image/${img}`}
                             alt="memory"
                             layout="fill"
                             objectFit="cover"
-                            className="group-hover:scale-105 transition-transform duration-700 ease-out"
+                            className="group-hover:scale-105 transition-transform duration-1000 ease-out filter contrast-[0.95]"
                           />
                         </div>
+
+                        {/* Soft corner flourish on polaroid */}
+                        {isFeatured && <div className="absolute bottom-4 right-4 text-rosegold/30 font-cursive text-2xl rotate-[-10deg]">Ansa</div>}
                       </div>
                     )
                   })}
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white/60 to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white/80 via-white/40 to-transparent pointer-events-none rounded-b-[3rem] z-20"></div>
 
-              <p className="opacity-0 animate-fadeUp mt-6 text-lg text-gray-600/90 italic text-center font-serif relative z-10 bg-white/30 backdrop-blur-sm px-6 py-2 rounded-full border border-white/50" style={{ animationDelay: '500ms' }}>
-                &quot;Sekarang cuma bisa mandangin lewat layar hp, tapi sayangnya beneran nembus sampai ke hati.&quot;
-              </p>
+              <div className="opacity-0 animate-fadeUp mt-8 text-lg text-gray-700/90 italic text-center font-serif relative z-30 px-8 py-4" style={{ animationDelay: '800ms' }}>
+                <p>&quot;Sekarang cuma bisa mandangin lewat layar hp, tapi sayangnya beneran nembus sampai ke hati.&quot;</p>
+                <div className="w-12 h-[1px] bg-rosegold/40 mx-auto mt-4"></div>
+              </div>
             </div>
           )}
 
           {/* Card 3: Appreciation */}
           {currentCard === 3 && (
-            <div className="glass-panel p-10 md:p-16 rounded-[40px] min-h-[600px] flex flex-col justify-center items-center relative">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="p-10 md:p-16 text-center min-h-[600px] flex flex-col justify-center relative">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-[80%] bg-rosegold/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-              <h2 className="opacity-0 animate-fadeUp text-4xl font-serif text-rosegold-deep text-center mb-16 drop-shadow-sm" style={{ animationDelay: '100ms' }}>Hal yang Aku Suka Dari Kamu</h2>
+              <h2 className="opacity-0 animate-fadeUp text-4xl md:text-5xl font-serif text-rosegold-deep mb-20 drop-shadow-sm" style={{ animationDelay: '100ms' }}>
+                <span className="italic">Hal yang</span> <br/>
+                <span className="font-cursive text-6xl md:text-7xl text-gradient-gold inline-block mt-4">Aku Suka Dari Kamu</span>
+              </h2>
 
-              <ul className="space-y-10 max-w-xl mx-auto w-full text-gray-700/90 text-lg md:text-xl font-sans relative z-10">
-                <li className="opacity-0 animate-fadeUp flex items-start space-x-6 group" style={{ animationDelay: '300ms' }}>
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/60 shadow-glass flex items-center justify-center group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                    <span className="text-xl">🌟</span>
-                  </div>
-                  <span className="font-light leading-[1.8] pt-1">caramu menemaniku ngobrol setiap hari, sampai rela ninggalin game cuma buat balas pesanku</span>
-                </li>
-                <li className="opacity-0 animate-fadeUp flex items-start space-x-6 group" style={{ animationDelay: '500ms' }}>
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/60 shadow-glass flex items-center justify-center group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                    <span className="text-xl">❤️</span>
-                  </div>
-                  <span className="font-light leading-[1.8] pt-1">keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku</span>
-                </li>
-                <li className="opacity-0 animate-fadeUp flex items-start space-x-6 group" style={{ animationDelay: '700ms' }}>
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/60 shadow-glass flex items-center justify-center group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                    <span className="text-xl">🌟</span>
-                  </div>
-                  <span className="font-light leading-[1.8] pt-1">sifat cemburuan dan gengsimu yang diam-diam selalu berhasil bikin aku makin sayang</span>
-                </li>
-                <li className="opacity-0 animate-fadeUp flex items-start space-x-6 group" style={{ animationDelay: '900ms' }}>
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/60 shadow-glass flex items-center justify-center group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                    <span className="text-xl">❤️</span>
-                  </div>
-                  <span className="font-light leading-[1.8] pt-1">caramu menjaga perasaanku, yang bikin aku selalu yakin dan rela menunggu sampai kita bisa bertemu nanti</span>
-                </li>
-              </ul>
+              <div className="space-y-12 max-w-2xl mx-auto w-full text-gray-800/90 text-lg md:text-xl font-sans relative z-10 flex flex-col items-center">
+                <div className="opacity-0 animate-fadeUp bg-white/40 backdrop-blur-md p-8 rounded-3xl shadow-premium-glass border border-white/60 transform hover:scale-105 transition-all duration-500 w-[90%] md:w-[80%] ml-[-10%]" style={{ animationDelay: '300ms' }}>
+                  <span className="font-light leading-[1.8] italic">&quot;Caramu menemaniku ngobrol setiap hari, sampai rela ninggalin game cuma buat balas pesanku.&quot;</span>
+                  <div className="absolute -top-4 -left-4 text-3xl opacity-50">✨</div>
+                </div>
+
+                <div className="opacity-0 animate-fadeUp bg-white/40 backdrop-blur-md p-8 rounded-3xl shadow-premium-glass border border-white/60 transform hover:scale-105 transition-all duration-500 w-[90%] md:w-[80%] mr-[-10%]" style={{ animationDelay: '600ms' }}>
+                  <span className="font-light leading-[1.8] italic">&quot;Keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku.&quot;</span>
+                  <div className="absolute -bottom-4 -right-4 text-3xl opacity-50">❤️</div>
+                </div>
+
+                <div className="opacity-0 animate-fadeUp bg-white/40 backdrop-blur-md p-8 rounded-3xl shadow-premium-glass border border-white/60 transform hover:scale-105 transition-all duration-500 w-[90%] md:w-[80%] ml-[-5%]" style={{ animationDelay: '900ms' }}>
+                  <span className="font-light leading-[1.8] italic">&quot;Caramu menjaga perasaanku, yang bikin aku selalu yakin dan rela menunggu sampai kita bisa bertemu nanti.&quot;</span>
+                  <div className="absolute -top-4 right-4 text-3xl opacity-50">🌟</div>
+                </div>
+              </div>
             </div>
           )}
 
-          {/* Card 4: The Conclusion */}
+          {/* Card 4: The Conclusion - Premium Letter */}
           {currentCard === 4 && (
-            <div className="glass-panel p-10 md:p-20 rounded-[40px] min-h-[600px] flex flex-col justify-center relative overflow-hidden bg-white/60">
-              {/* Paper texture/watermark hint */}
-              <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] pointer-events-none"></div>
+            <div className="bg-white/70 backdrop-blur-2xl p-12 md:p-20 rounded-[3rem] min-h-[600px] flex flex-col justify-center relative overflow-hidden shadow-premium-glass border border-white/80">
+              <div className="absolute inset-0 paper-texture opacity-40 pointer-events-none"></div>
 
-              <h2 className="opacity-0 animate-fadeUp text-3xl font-serif text-rosegold-deep mb-12 text-left" style={{ animationDelay: '100ms' }}>Doaku Untukmu...</h2>
+              {/* Elegant corner flourishes */}
+              <div className="absolute top-6 left-6 w-16 h-16 border-t-2 border-l-2 border-rosegold/30 rounded-tl-3xl"></div>
+              <div className="absolute bottom-6 right-6 w-16 h-16 border-b-2 border-r-2 border-rosegold/30 rounded-br-3xl"></div>
 
-              <div className="opacity-0 animate-fadeUp text-lg md:text-xl font-sans text-gray-700/90 leading-[2.2] font-light space-y-8 relative z-10" style={{ animationDelay: '300ms' }}>
-                <p className="ml-4 md:ml-8 mr-2 md:mr-12 indent-8">
+              <h2 className="opacity-0 animate-fadeUp text-4xl font-serif text-rosegold-deep mb-16 text-center italic" style={{ animationDelay: '100ms' }}>Doaku Untukmu...</h2>
+
+              <div className="opacity-0 animate-fadeUp text-lg md:text-xl font-sans text-gray-800/90 leading-[2.4] font-light space-y-8 relative z-10 max-w-2xl mx-auto" style={{ animationDelay: '400ms' }}>
+                <p className="indent-10">
                   Semoga tahun ini membawa lebih banyak kebahagiaan dan ketenangan buat hati kamu. Makasih ya sudah sekuat ini dan pelan-pelan mau membuka hati lagi buat aku.
                 </p>
-                <p className="mr-4 md:mr-8 ml-2 md:ml-12 text-right">
+                <p className="indent-10">
                   Walaupun raga kita belum bisa saling bertatap secara langsung, aku harap doa dan afeksiku selalu sampai ke kamu. Jangan pernah merasa sendirian lagi ya, ada aku di sini yang siap mendengarkan semua ceritamu.
                 </p>
-                <p className="font-serif text-2xl text-rosegold-deep mt-16 text-center italic opacity-90 drop-shadow-sm">
+                <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-rosegold-deep/40 to-transparent mx-auto mt-12 mb-8"></div>
+                <p className="font-serif text-3xl text-rosegold-deep text-center italic opacity-90 drop-shadow-sm mt-8">
                   Selamat bertambah usia, sayang.
                 </p>
               </div>
 
-              <div className="opacity-0 animate-fadeUp mt-20 text-right mr-4 md:mr-12 relative z-10" style={{ animationDelay: '600ms' }}>
-                <p className="font-sans text-base font-light text-gray-500 mb-1">Selamanya sedia buat kamu,</p>
-                <p className="font-cursive text-5xl md:text-6xl text-rosegold-deep drop-shadow-sm transform -rotate-2">Ilham</p>
+              <div className="opacity-0 animate-fadeUp mt-16 text-center relative z-10" style={{ animationDelay: '800ms' }}>
+                <p className="font-sans text-sm font-light text-gray-500 mb-2 uppercase tracking-widest">Selamanya sedia buat kamu,</p>
+                <p className="font-cursive text-6xl md:text-7xl text-gradient-gold drop-shadow-sm transform -rotate-2 inline-block">Ilham</p>
               </div>
             </div>
           )}
 
-          {/* Card 5: Story Summary */}
+          {/* Card 5: Story Summary - Exportable Keepsake */}
           {currentCard === 5 && (
-            <div id="story-summary" className="bg-gradient-to-br from-white/80 to-rosegold-light/60 backdrop-blur-2xl border border-white/60 shadow-[0_20px_60px_-15px_rgba(183,110,121,0.2)] rounded-[40px] p-8 min-h-[600px] flex flex-col justify-center items-center aspect-[9/16] max-h-[85vh] mx-auto overflow-hidden relative">
-              <div className="absolute inset-0 z-0 opacity-10 bg-[url('/image/IMG-20260326-WA0005.jpg')] bg-cover bg-center mix-blend-multiply filter blur-sm"></div>
+            <div id="story-summary" className="bg-gradient-to-b from-white/95 to-champagne-light/95 backdrop-blur-3xl border border-white shadow-[0_30px_60px_-15px_rgba(183,110,121,0.3)] rounded-[3rem] p-8 md:p-10 min-h-[600px] flex flex-col justify-center items-center aspect-[9/16] max-h-[85vh] mx-auto overflow-hidden relative soft-grain">
 
-              <div className="z-10 w-full flex flex-col items-center text-center space-y-6">
-                <div className="bg-white/40 p-6 rounded-3xl backdrop-blur-md shadow-glass border border-white/50 w-full mb-4">
-                   <h1 className="text-3xl font-serif text-rosegold-deep italic tracking-wider mb-2">Happy Birthday</h1>
-                   <h2 className="font-cursive text-5xl text-rosegold drop-shadow-md">Ansa</h2>
-                   <div className="w-16 h-[1px] bg-rosegold-deep/50 mx-auto mt-6"></div>
+              {/* Premium Inner Border */}
+              <div className="absolute inset-4 border border-rosegold/20 rounded-[2.5rem] pointer-events-none"></div>
+
+              <div className="z-10 w-full flex flex-col items-center text-center h-full justify-between py-4">
+                <div className="w-full mt-4">
+                   <h1 className="text-xl md:text-2xl font-sans tracking-[0.3em] text-gray-500 uppercase mb-4">Happy Birthday</h1>
+                   <h2 className="font-cursive text-7xl md:text-8xl text-gradient-gold drop-shadow-md -mt-2 mb-6">Ansa</h2>
+                   <div className="w-12 h-[2px] bg-rosegold-deep/40 mx-auto"></div>
                 </div>
 
-                <div className="text-sm font-sans text-gray-800/90 leading-[1.8] px-5 py-6 font-light bg-white/60 rounded-3xl backdrop-blur-md border border-white/60 shadow-sm w-full">
-                  <p className="italic mb-4">&quot;Keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku.&quot;</p>
-                  <p>Semoga tahun ini membawa lebih banyak kebahagiaan dan ketenangan buat hati kamu.</p>
-                  <p className="font-cursive text-3xl text-rosegold-deep mt-4">- Ilham -</p>
+                <div className="my-auto w-full relative">
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-rosegold/5 rounded-full blur-[40px] pointer-events-none"></div>
+                  <div className="text-base md:text-lg font-serif text-gray-800/90 leading-[2] px-6 py-8 font-light relative z-10 italic">
+                    <p className="mb-6">&quot;Keberanianmu untuk melawan rasa trauma dan pelan-pelan membuka hati lagi untukku.&quot;</p>
+                    <p className="text-gray-600">Semoga tahun ini membawa lebih banyak kebahagiaan dan ketenangan buat hati kamu.</p>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 mt-4 w-full px-1">
-                  {[imageFilenames[0], imageFilenames[4], imageFilenames[8]].map((img, idx) => {
-                     const rotation = idx === 1 ? 'rotate-0 scale-110 z-10' : (idx === 0 ? '-rotate-3' : 'rotate-3');
-                     return (
-                       <div key={idx} className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-md border-[3px] border-white transform ${rotation}`}>
-                         <Image src={`/image/${img}`} alt="memory" layout="fill" objectFit="cover" />
-                       </div>
-                     )
-                  })}
+                <div className="w-full mb-4">
+                  <div className="flex justify-center items-end h-32 md:h-40 relative px-4">
+                    {[imageFilenames[0], imageFilenames[4], imageFilenames[8]].map((img, idx) => {
+                       const styles = [
+                         "absolute left-4 md:left-8 bottom-0 w-24 md:w-32 rotate-[-12deg] z-10",
+                         "relative z-30 w-28 md:w-36 scale-110 -translate-y-4 shadow-xl",
+                         "absolute right-4 md:right-8 bottom-0 w-24 md:w-32 rotate-[12deg] z-20"
+                       ];
+
+                       return (
+                         <div key={idx} className={`${styles[idx]} aspect-[3/4] rounded-xl overflow-hidden border-[4px] border-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] bg-white`}>
+                           <Image src={`/image/${img}`} alt="memory" layout="fill" objectFit="cover" className="filter contrast-[0.95]" />
+                         </div>
+                       )
+                    })}
+                  </div>
+                  <p className="font-cursive text-4xl text-rosegold-deep mt-10">- Ilham -</p>
                 </div>
               </div>
             </div>
@@ -404,12 +429,12 @@ export default function Home() {
 
         </div>
 
-        {/* Navigation Controls */}
+        {/* Navigation Controls - More Elegant */}
         {currentCard > 0 && (
           <div className="w-full max-w-2xl flex justify-between items-center mt-12 px-2 animate-fadeUp relative z-20">
             <button
               onClick={prevCard}
-              className={`flex items-center space-x-2 px-6 py-3.5 rounded-full border border-rosegold/30 bg-white/40 backdrop-blur-md text-rosegold-deep font-sans tracking-wide text-sm font-medium shadow-glass hover:bg-white/60 hover:shadow-glass-hover hover:-translate-x-1 transition-all duration-300 ${currentCard === 1 ? 'opacity-0 cursor-default pointer-events-none' : 'opacity-100'}`}
+              className={`flex items-center space-x-3 px-8 py-4 rounded-full border border-white/60 bg-white/40 backdrop-blur-xl text-gray-700 font-sans tracking-[0.1em] text-xs uppercase font-medium shadow-glass hover:bg-white/80 hover:shadow-premium-glass hover:-translate-x-1 transition-all duration-500 ${currentCard === 1 ? 'opacity-0 cursor-default pointer-events-none' : 'opacity-100'}`}
             >
               <span>←</span>
               <span className="hidden sm:inline">Kembali</span>
@@ -418,23 +443,23 @@ export default function Home() {
             {currentCard < 5 ? (
               <button
                 onClick={nextCard}
-                className="flex items-center space-x-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-rosegold-deep to-rosegold text-white font-sans tracking-wide text-sm font-medium shadow-[0_8px_20px_rgba(183,110,121,0.4)] hover:shadow-[0_8px_25px_rgba(183,110,121,0.6)] hover:translate-x-1 transition-all duration-300"
+                className="flex items-center space-x-4 px-10 py-4 rounded-full bg-gradient-to-r from-rosegold-deep via-rosegold to-rosegold-deep text-white font-sans tracking-[0.1em] text-xs uppercase font-medium shadow-[0_10px_30px_rgba(183,110,121,0.5)] hover:shadow-[0_15px_40px_rgba(183,110,121,0.7)] hover:translate-x-1 transition-all duration-500 bg-[length:200%_auto] hover:bg-right"
               >
                 <span className="hidden sm:inline">Selanjutnya</span>
                 <span>→</span>
               </button>
             ) : (
-              <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <button
                   onClick={handleShareStory}
-                  className="px-6 py-3.5 rounded-full bg-white/50 backdrop-blur-md border border-white/60 font-sans text-sm text-rosegold-deep font-medium shadow-glass hover:bg-white/70 hover:scale-105 transition-all duration-300 flex items-center space-x-2"
+                  className="px-8 py-4 rounded-full bg-white/70 backdrop-blur-xl border border-white/80 font-sans text-xs tracking-[0.1em] uppercase text-rosegold-deep font-semibold shadow-premium-glass hover:bg-white hover:scale-105 transition-all duration-500 flex items-center space-x-3"
                 >
-                  <span className="text-lg">📸</span>
+                  <span className="text-xl">📸</span>
                   <span>Simpan sbg Story</span>
                 </button>
-                <div className="px-8 py-3.5 rounded-full bg-rosegold/10 backdrop-blur-md border border-rosegold/20 shadow-inner flex items-center space-x-3">
-                  <span className="font-cursive text-2xl text-rosegold-deep pt-1">I Love You</span>
-                  <span className="animate-pulseGlow text-rosegold-deep">❤️</span>
+                <div className="px-10 py-4 rounded-full bg-gradient-to-r from-rosegold-light/30 to-blush-light/30 backdrop-blur-md border border-rosegold/30 shadow-inner flex items-center space-x-4">
+                  <span className="font-cursive text-3xl text-rosegold-deep pt-1">I Love You</span>
+                  <span className="animate-heartbeat text-rosegold-deep text-xl drop-shadow-md">❤️</span>
                 </div>
               </div>
             )}
