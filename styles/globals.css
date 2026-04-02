@@ -158,3 +158,19 @@ input[type="radio"].red:checked:after {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(183, 110, 121, 0.6);
 }
+
+/* Vibrant Gradient Background */
+.bg-vibrant-gradient {
+  background: linear-gradient(-45deg, #f97316, #d946ef, #9333ea, #f97316);
+  background-size: 400% 400%;
+  animation: gradient-x 15s ease infinite;
+}
+
+/* Star Particles */
+.particle-star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
+  animation: twinkle 4s ease-in-out infinite;
+}
