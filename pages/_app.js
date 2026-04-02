@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import "../styles/globals.css";
+const { useRouter } = require("next/router");
+const { useEffect, useState } = require("react");
+require("../styles/globals.css");
 
 function MyApp({ Component, pageProps }) {
   const [history, setHistory] = useState([]);
@@ -13,4 +13,4 @@ function MyApp({ Component, pageProps }) {
   return <Component history={history} pageProps={pageProps} />;
 }
 
-export default MyApp;
+module.exports = MyApp;
