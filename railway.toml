@@ -1,0 +1,7 @@
+[build]
+
+[build.variables]
+RAILPACK_NODE_VERSION = "18"
+NODE_OPTIONS = "--openssl-legacy-provider"
+
+[deploy]
